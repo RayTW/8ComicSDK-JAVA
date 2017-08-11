@@ -10,92 +10,95 @@ import net.xuite.blog.ray00000test.library.net.EasyHttp.Response;
 /**
  * 
  * @author Ray Lee
- *
+ * 
  */
 public class R8Comic {
 	private static R8Comic sInstance = new R8Comic();
 	private Config mConfig = new Config();
 	private Parser mParser = new Parser();
-	
-	private R8Comic(){
+
+	private R8Comic() {
 	}
-	
-	public static R8Comic get(){
+
+	public static R8Comic get() {
 		return sInstance;
 	}
-	
-	public void Config(Config config){
+
+	public void Config(Config config) {
 		mConfig = config;
 	}
-	
+
 	/**
-     * 讀取全部漫畫編號、名稱
-     **/
-	public void getAll(OnLoadListener<List<Comic>> listener){
+	 * 讀取全部漫畫編號、名稱
+	 **/
+	public void getAll(OnLoadListener<List<Comic>> listener) {
 		String htmlString = requestGetHttp(mConfig.mAllUrl);
 		List<Comic> result = mParser.allComics(htmlString, mConfig);
-		
-		if(listener != null){
+
+		if (listener != null) {
 			listener.onLoaded(result);
 		}
 	}
-	
+
 	/**
-     * 讀取漫畫簡介、作者、最後更新日期、集數列表
-     **/
-	public void loadComicDetail(Comic comic, OnLoadListener<Comic> listener){
-		String htmlString = requestGetHttp(mConfig.getComicDetailUrl(comic.getId()));
+	 * 讀取漫畫簡介、作者、最後更新日期、集數列表
+	 **/
+	public void loadComicDetail(Comic comic, OnLoadListener<Comic> listener) {
+		String htmlString = requestGetHttp(mConfig.getComicDetailUrl(comic
+				.getId()));
 		Comic result = mParser.comicDetail(htmlString, comic);
-		
-		if(listener != null){
+
+		if (listener != null) {
 			listener.onLoaded(result);
 		}
 	}
-	
+
 	/**
-     * 讀取漫畫簡介、作者、最後更新日期、集數列表
-     **/
-	public void loadEpisodeDetail(Episode episode, OnLoadListener<Episode> listener){
+	 * 讀取漫畫簡介、作者、最後更新日期、集數列表
+	 **/
+	public void loadEpisodeDetail(Episode episode,
+			OnLoadListener<Episode> listener) {
 		String htmlString = requestGetHttp(episode.getUrl());
 		Episode result = mParser.episodeDetail(htmlString, episode);
-		
-		if(listener != null){
+
+		if (listener != null) {
 			listener.onLoaded(result);
 		}
 	}
-	
+
 	/**
-     * 讀取漫畫圖片實際存放的Server site網址列表
-     **/
-	public void loadSiteUrlList(OnLoadListener<Map<String, String>> listener){
+	 * 讀取漫畫圖片實際存放的Server site網址列表
+	 **/
+	public void loadSiteUrlList(OnLoadListener<Map<String, String>> listener) {
 		String htmlString = requestGetHttp(mConfig.mCviewJSUrl);
 		Map<String, String> result = mParser.cviewJS(htmlString);
-		
-		if(listener != null){
+
+		if (listener != null) {
 			listener.onLoaded(result);
 		}
 	}
-	
-	public Parser getParser(){
+
+	public Parser getParser() {
 		return mParser;
 	}
-	
-	public Config getConfig(){
+
+	public Config getConfig() {
 		return mConfig;
 	}
-	
-	public static interface OnLoadListener<Result>{
+
+	public static interface OnLoadListener<Result> {
 		public abstract void onLoaded(Result result);
 	}
-	
 
-	private String requestGetHttp(String url){
+	private String requestGetHttp(String url) {
 		String result = null;
 		EasyHttp request = new EasyHttp.Builder()
 				.setUrl(url)
-				.setMethod("GET").setIsRedirect(true)
+				.setMethod("GET")
+				.setIsRedirect(true)
 				.setCharset("BIG5")
-				.putHeader("Accept",
+				.putHeader(
+						"Accept",
 						"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8")
 				.putHeader("Accept-Encoding", "gzip, deflate, br")
 				.setUserAgent(
@@ -108,7 +111,7 @@ public class R8Comic {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		return result;
 	}
 }

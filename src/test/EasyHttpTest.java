@@ -6,13 +6,15 @@ import net.xuite.blog.ray00000test.library.net.EasyHttp;
 import net.xuite.blog.ray00000test.library.net.EasyHttp.Response;
 
 public class EasyHttpTest {
-	
-	private void testConnect(){
+
+	private void testConnect() {
 		EasyHttp request = new EasyHttp.Builder()
 				.setUrl("https://github.com/RayTW/8ComicSDK-JAVA")
-				.setMethod("GET").setIsRedirect(true)
+				.setMethod("GET")
+				.setIsRedirect(true)
 				.setCharset("UTF-8")
-				.putHeader("Accept",
+				.putHeader(
+						"Accept",
 						"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8")
 				.putHeader("Accept-Encoding", "gzip, deflate, br")
 				.setUserAgent(
@@ -22,7 +24,8 @@ public class EasyHttpTest {
 		try {
 			Response response = request.connect();
 			System.out.println(response.getHeaders());
-			System.out.println("code[" + response.getStatusCode() + "],body==>" + response.getBody());
+			System.out.println("code[" + response.getStatusCode() + "],body==>"
+					+ response.getBody());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

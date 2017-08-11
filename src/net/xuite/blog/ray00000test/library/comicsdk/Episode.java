@@ -6,54 +6,53 @@ import java.util.List;
  * 
  * 每集(話、卷)漫畫
  * 
- * @author Ray Lee 
- * Created on 2017/08/11
+ * @author Ray Lee Created on 2017/08/11
  */
 public class Episode {
 	private String mName;// 漫畫每集(話)(卷)名稱
-	private String mUrl ;
+	private String mUrl;
 	private String mCatid;
 	private String mCopyright;
 	private int mCh;
 	private int mChs = 0;
 	private int mTi = 0;
-	private int mPs = 0; //漫畫總頁數
+	private int mPs = 0; // 漫畫總頁數
 	private String mCs = "";
 	private String mC = "";
-	private List<String> mImageUrl ;
+	private List<String> mImageUrl;
 	private static final int F = 50;
 
 	/**
 	 * 讀取1話(集、卷)全部漫畫圖片網址
 	 */
-	public void setUpPages(){
+	public void setUpPages() {
 		sp();
 		int totalPage = mPs;
-		
-		for(int i = 0; i < totalPage; i++){
+
+		for (int i = 0; i < totalPage; i++) {
 			mImageUrl.add(si(i + 1));
 		}
 	}
-	
+
 	/*
 	 * 取得單集漫畫名稱
 	 */
-	public String getName(){
+	public String getName() {
 		return mName;
 	}
 
 	/*
 	 * 設定單集漫畫名稱
 	 */
-	public void setName(String name){
+	public void setName(String name) {
 		mName = name;
 	}
 
-	public String getUrl(){
+	public String getUrl() {
 		return mUrl;
 	}
 
-	public void setUrl(String url){
+	public void setUrl(String url) {
 		mUrl = url;
 	}
 
@@ -85,8 +84,8 @@ public class Episode {
 	}
 
 	/*
-     * 取得最新集數，例如最新第68號，此回傳值則為68
-     */
+	 * 取得最新集數，例如最新第68號，此回傳值則為68
+	 */
 	public int getChs() {
 		return mChs;
 	}
@@ -107,9 +106,9 @@ public class Episode {
 		return mPs;
 	}
 
-	 /*
-     * 取得單集漫畫混淆過的編碼
-     */
+	/*
+	 * 取得單集漫畫混淆過的編碼
+	 */
 	public String getCs() {
 		return mCs;
 	}
@@ -129,8 +128,8 @@ public class Episode {
 	public List<String> getImageUrlList() {
 		return mImageUrl;
 	}
-	
-	private void sp(){
+
+	private void sp() {
 		int cc = mCs.length();
 		for (int i = 0; i < cc / F; i++) {
 			if (ss(mCs, i * F, 4).equals(String.valueOf(mCh))) {
@@ -148,7 +147,7 @@ public class Episode {
 			mPs = Integer.parseInt(ps);
 		}
 	}
-	
+
 	/**
 	 * 取得卷數或集數
 	 * 
@@ -177,11 +176,11 @@ public class Episode {
 	}
 
 	private String si(int p) {
-		return "http://img" + ss(mC, 4, 2) + ".8comic.com/" + ss(mC, 6, 1) + "/"
-				+ mTi + "/" + ss(mC, 0, 4) + "/" + nn(p) + "_"
+		return "http://img" + ss(mC, 4, 2) + ".8comic.com/" + ss(mC, 6, 1)
+				+ "/" + mTi + "/" + ss(mC, 0, 4) + "/" + nn(p) + "_"
 				+ ss(mC, mm(p) + 10, 3, F) + ".jpg";
 	}
-	
+
 	private String nn(int n) {
 		return String.valueOf(n < 10 ? "00" + n : n < 100 ? "0" + n : n);
 	}

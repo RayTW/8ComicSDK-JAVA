@@ -77,7 +77,8 @@ public class EasyHttp {
 		}
 
 		if (!isGet && queryString != null && !queryString.isEmpty()) {
-			BufferedOutputStream dos = new BufferedOutputStream(new DataOutputStream(connection.getOutputStream()));
+			BufferedOutputStream dos = new BufferedOutputStream(
+					new DataOutputStream(connection.getOutputStream()));
 			dos.write(queryString.getBytes(mCharset));
 			dos.flush();
 			dos.close();
@@ -96,7 +97,8 @@ public class EasyHttp {
 	}
 
 	private void setUpRequestProperty(URLConnection connection) {
-		Iterator<Map.Entry<String, String>> iter = mRequestHeader.entrySet().iterator();
+		Iterator<Map.Entry<String, String>> iter = mRequestHeader.entrySet()
+				.iterator();
 		Map.Entry<String, String> entry = null;
 
 		while (iter.hasNext()) {
@@ -105,7 +107,8 @@ public class EasyHttp {
 		}
 	}
 
-	private Response createResponse(HttpURLConnection connection, boolean newline) throws IOException {
+	private Response createResponse(HttpURLConnection connection,
+			boolean newline) throws IOException {
 		int code = connection.getResponseCode();
 		InputStream inputStream = null;
 		String body = null;
@@ -121,9 +124,11 @@ public class EasyHttp {
 		return new Response(code, body, connection.getHeaderFields());
 	}
 
-	private String readString(InputStream inputStream, String charset, boolean newline) throws IOException {
+	private String readString(InputStream inputStream, String charset,
+			boolean newline) throws IOException {
 		StringBuffer buffer = new StringBuffer();
-		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, charset), mBufferReaderKB * 1024);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				inputStream, charset), mBufferReaderKB * 1024);
 		String str = null;
 
 		while ((str = reader.readLine()) != null) {
@@ -136,7 +141,8 @@ public class EasyHttp {
 		return buffer.toString();
 	}
 
-	private InputStream getInputStream(HttpURLConnection connection) throws IOException {
+	private InputStream getInputStream(HttpURLConnection connection)
+			throws IOException {
 		if ("gzip".equalsIgnoreCase(connection.getContentEncoding())) {
 			return new GZIPInputStream(connection.getInputStream());
 		}
@@ -147,7 +153,8 @@ public class EasyHttp {
 		return connection.getInputStream();
 	}
 
-	private InputStream getErrorStream(HttpURLConnection connection) throws IOException {
+	private InputStream getErrorStream(HttpURLConnection connection)
+			throws IOException {
 		if ("gzip".equalsIgnoreCase(connection.getContentEncoding())) {
 			return new GZIPInputStream(connection.getErrorStream());
 		}

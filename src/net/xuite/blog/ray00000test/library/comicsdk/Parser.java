@@ -27,22 +27,27 @@ public class Parser {
 		int comicNameEndIndex = NOT_FOUND;
 		List<Comic> comicAry = new ArrayList<Comic>();
 
-		while(true){
+		while (true) {
 			comicIdBeginIndex = html.indexOf(commicIdBegin);
 			comicIdEndIndex = html.indexOf(commicIdEnd);
-			
-			if(comicIdBeginIndex == NOT_FOUND || comicIdEndIndex == NOT_FOUND){
-                break;
-            }
-			comicId = html.substring(comicIdBeginIndex + commicIdBegin.length(), comicIdEndIndex);
+
+			if (comicIdBeginIndex == NOT_FOUND || comicIdEndIndex == NOT_FOUND) {
+				break;
+			}
+			comicId = html
+					.substring(comicIdBeginIndex + commicIdBegin.length(),
+							comicIdEndIndex);
 			html = html.substring(comicIdEndIndex + commicIdEnd.length());
 			comicNameBeginIndex = html.indexOf(commicNameBegin);
 			comicNameEndIndex = html.indexOf(commicNameEnd);
-			
-			if(comicNameBeginIndex == NOT_FOUND || comicNameEndIndex == NOT_FOUND){
-                break;
-            }
-			comicName = html.substring(comicNameBeginIndex + commicNameBegin.length(), comicNameEndIndex);
+
+			if (comicNameBeginIndex == NOT_FOUND
+					|| comicNameEndIndex == NOT_FOUND) {
+				break;
+			}
+			comicName = html.substring(
+					comicNameBeginIndex + commicNameBegin.length(),
+					comicNameEndIndex);
 			Comic comic = new Comic();
 			comic.setId(comicId);
 			comic.setName(comicName);
@@ -50,7 +55,7 @@ public class Parser {
 			comic.setSmallIconUrl(comicId);
 			comicAry.add(comic);
 		}
-		
+
 		return comicAry;
 	}
 

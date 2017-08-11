@@ -5,8 +5,7 @@ import java.util.List;
 /**
  * 以每個漫畫id(編號)分類對應的漫畫物件
  * 
- * @author Ray Lee 
- * Created on 2017/08/11
+ * @author Ray Lee Created on 2017/08/11
  */
 public class Comic {
 	private String mId;// 漫畫編號

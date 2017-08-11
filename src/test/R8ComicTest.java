@@ -14,34 +14,34 @@ public class R8ComicTest {
 
 	@Test
 	public void testGetAll() {
-		R8Comic.get().getAll(new OnLoadListener<List<Comic>>(){
+		R8Comic.get().getAll(new OnLoadListener<List<Comic>>() {
 
 			@Override
 			public void onLoaded(List<Comic> result) {
-				
-				for(Comic comic : result){
+
+				for (Comic comic : result) {
 					System.out.println(comic.getId() + "," + comic.getName());
 				}
-				
+
 				assertTrue(result.size() > 0);
 			}
-			
+
 		});
 	}
 
 	@Test
 	public void testLoadComicDetail() {
-//		fail("Not yet implemented");
+		// fail("Not yet implemented");
 		Comic comic = null;
-		
-		R8Comic.get().loadComicDetail(comic, new OnLoadListener<Comic>(){
+
+		R8Comic.get().loadComicDetail(comic, new OnLoadListener<Comic>() {
 
 			@Override
 			public void onLoaded(Comic result) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 		});
 	}
 
