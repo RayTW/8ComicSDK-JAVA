@@ -105,8 +105,6 @@ public class R8Comic {
 		try {
 			Response response = request.connect();
 			result = response.getBody();
-			System.out.println(response.getHeaders());
-			System.out.println("code[" + response.getStatusCode() + "],body==>" + response.getBody());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
