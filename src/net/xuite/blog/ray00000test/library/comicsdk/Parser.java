@@ -11,10 +11,46 @@ import java.util.Map;
  * @author Ray Lee Created on 2017/08/11
  */
 public class Parser {
+	private static final int NOT_FOUND = -1;
 
 	public List<Comic> allComics(String htmlString, Config config) {
+		String html = htmlString;
+		String commicIdBegin = "showthumb(";
+		String commicIdEnd = ",this);";
+		int comicIdBeginIndex = NOT_FOUND;
+		int comicIdEndIndex = NOT_FOUND;
+		String comicId = "";
+		String commicNameBegin = "hidethumb();'>";
+		String commicNameEnd = "</a></td>";
+		String comicName = "";
+		int comicNameBeginIndex = NOT_FOUND;
+		int comicNameEndIndex = NOT_FOUND;
 		List<Comic> comicAry = new ArrayList<Comic>();
-		// TODO
+
+		while(true){
+			comicIdBeginIndex = html.indexOf(commicIdBegin);
+			comicIdEndIndex = html.indexOf(commicIdEnd);
+			
+			if(comicIdBeginIndex == NOT_FOUND || comicIdEndIndex == NOT_FOUND){
+                break;
+            }
+			comicId = html.substring(comicIdBeginIndex + commicIdBegin.length(), comicIdEndIndex);
+			html = html.substring(comicIdEndIndex + commicIdEnd.length());
+			comicNameBeginIndex = html.indexOf(commicNameBegin);
+			comicNameEndIndex = html.indexOf(commicNameEnd);
+			
+			if(comicNameBeginIndex == NOT_FOUND || comicNameEndIndex == NOT_FOUND){
+                break;
+            }
+			comicName = html.substring(comicNameBeginIndex + commicNameBegin.length(), comicNameEndIndex);
+			Comic comic = new Comic();
+			comic.setId(comicId);
+			comic.setName(comicName);
+			comic.setIconUrl(comicId);
+			comic.setSmallIconUrl(comicId);
+			comicAry.add(comic);
+		}
+		
 		return comicAry;
 	}
 

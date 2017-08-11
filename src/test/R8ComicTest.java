@@ -14,13 +14,16 @@ public class R8ComicTest {
 
 	@Test
 	public void testGetAll() {
-//		fail("Not yet implemented");
 		R8Comic.get().getAll(new OnLoadListener<List<Comic>>(){
 
 			@Override
 			public void onLoaded(List<Comic> result) {
-				// TODO Auto-generated method stub
 				
+				for(Comic comic : result){
+					System.out.println(comic.getId() + "," + comic.getName());
+				}
+				
+				assertTrue(result.size() > 0);
 			}
 			
 		});
