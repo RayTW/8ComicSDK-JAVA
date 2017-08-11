@@ -27,7 +27,12 @@ public class Episode {
 	 * 讀取1話(集、卷)全部漫畫圖片網址
 	 */
 	public void setUpPages(){
-		//TODO
+		sp();
+		int totalPage = mPs;
+		
+		for(int i = 0; i < totalPage; i++){
+			mImageUrl.add(si(i + 1));
+		}
 	}
 	
 	/*
@@ -126,32 +131,62 @@ public class Episode {
 	}
 	
 	private void sp(){
-		//TODO
+		int cc = mCs.length();
+		for (int i = 0; i < cc / F; i++) {
+			if (ss(mCs, i * F, 4).equals(String.valueOf(mCh))) {
+				mC = ss(mCs, i * F, F, F);
+				break;
+			}
+		}
+		if (mC.isEmpty()) {
+			mC = ss(mCs, cc - F, F);
+			mCh = mChs;
+		}
+		String ps = ss(mC, 7, 3);// 總頁數
+
+		if (!ps.isEmpty()) {
+			mPs = Integer.parseInt(ps);
+		}
 	}
 	
-	private void ss(String a, int b, int c){
-		//TODO
+	/**
+	 * 取得卷數或集數
+	 * 
+	 * @param a
+	 * @param b
+	 * @param c
+	 * @param d
+	 * @return
+	 */
+	private String ss(String a, int b, int c) {
+		return ss(a, b, c, null);
+	}
+
+	/**
+	 * 取得卷數或集數
+	 * 
+	 * @param a
+	 * @param b
+	 * @param c
+	 * @param d
+	 * @return
+	 */
+	private String ss(String a, int b, int c, Integer d) {
+		String e = a.substring(b, b + c);
+		return d == null ? e.replaceAll("[a-z]", "") : e;
+	}
+
+	private String si(int p) {
+		return "http://img" + ss(mC, 4, 2) + ".8comic.com/" + ss(mC, 6, 1) + "/"
+				+ mTi + "/" + ss(mC, 0, 4) + "/" + nn(p) + "_"
+				+ ss(mC, mm(p) + 10, 3, F) + ".jpg";
 	}
 	
-	private void ss(String a, int b, int c, Integer d){
-		//TODO
+	private String nn(int n) {
+		return String.valueOf(n < 10 ? "00" + n : n < 100 ? "0" + n : n);
 	}
-	
-	private String si(int p){
-		//TODO
-		
-		return null;
-	}
-	
-	private int mm(int p){
-		//TODO
-		
-		return 0;
-	}
-	
-	private String nn(int n){
-		//TODO
-		
-		return null;
-	}
+
+	private int mm(int p) {
+		return (((p - 1) / 10) % 10) + (((p - 1) % 10) * 3);
+	};
 }
