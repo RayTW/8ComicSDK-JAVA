@@ -3,6 +3,7 @@ package test;
 import static org.junit.Assert.*;
 
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -19,9 +20,9 @@ public class R8ComicTest {
 			@Override
 			public void onLoaded(List<Comic> result) {
 
-				for (Comic comic : result) {
-					System.out.println(comic.getId() + "," + comic.getName());
-				}
+//				for (Comic comic : result) {
+//					System.out.println(comic.getId() + "," + comic.getName());
+//				}
 
 				assertTrue(result.size() > 0);
 			}
@@ -52,7 +53,15 @@ public class R8ComicTest {
 
 	@Test
 	public void testLoadSiteUrlList() {
-		fail("Not yet implemented");
+		R8Comic.get().loadSiteUrlList(new OnLoadListener<Map<String, String>>() {
+
+			@Override
+			public void onLoaded(Map<String, String> result) {
+				System.out.println(result);
+				assertTrue(result.size() > 0);
+			}
+
+		});
 	}
 
 }
