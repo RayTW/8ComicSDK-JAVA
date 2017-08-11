@@ -13,7 +13,7 @@ import java.util.Map;
 public class Parser {
 
 	public List<Comic> allComics(String htmlString, Config config) {
-		List<Comic> comicAry = new ArrayList<>();
+		List<Comic> comicAry = new ArrayList<Comic>();
 		// TODO
 		return comicAry;
 	}
@@ -24,7 +24,7 @@ public class Parser {
 	}
 
 	public Map<String, String> cviewJS(String htmlString) {
-		Map<String, String> cviewMap = new HashMap<>();
+		Map<String, String> cviewMap = new HashMap<String, String>();
 		// TODO
 		return cviewMap;
 	}

@@ -8,14 +8,21 @@ import org.junit.Test;
 
 import net.xuite.blog.ray00000test.library.comicsdk.Comic;
 import net.xuite.blog.ray00000test.library.comicsdk.R8Comic;
+import net.xuite.blog.ray00000test.library.comicsdk.R8Comic.OnLoadListener;
 
 public class R8ComicTest {
 
 	@Test
 	public void testGetAll() {
 //		fail("Not yet implemented");
-		R8Comic.get().getAll(result -> {
-			Comic comic = result.get(0);
+		R8Comic.get().getAll(new OnLoadListener<List<Comic>>(){
+
+			@Override
+			public void onLoaded(List<Comic> result) {
+				// TODO Auto-generated method stub
+				
+			}
+			
 		});
 	}
 
@@ -24,7 +31,14 @@ public class R8ComicTest {
 //		fail("Not yet implemented");
 		Comic comic = null;
 		
-		R8Comic.get().loadComicDetail(comic, result -> {
+		R8Comic.get().loadComicDetail(comic, new OnLoadListener<Comic>(){
+
+			@Override
+			public void onLoaded(Comic result) {
+				// TODO Auto-generated method stub
+				
+			}
+			
 		});
 	}
 
