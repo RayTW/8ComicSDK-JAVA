@@ -20,9 +20,9 @@ public class R8ComicTest {
 			@Override
 			public void onLoaded(List<Comic> result) {
 
-//				for (Comic comic : result) {
-//					System.out.println(comic.getId() + "," + comic.getName());
-//				}
+				//				for (Comic comic : result) {
+				//					System.out.println(comic.getId() + "," + comic.getName());
+				//				}
 
 				assertTrue(result.size() > 0);
 			}
@@ -33,14 +33,21 @@ public class R8ComicTest {
 	@Test
 	public void testLoadComicDetail() {
 		// fail("Not yet implemented");
-		Comic comic = null;
+		Comic comic = new Comic();
+		comic.setId("103");
+		comic.setName("海賊王");
 
 		R8Comic.get().loadComicDetail(comic, new OnLoadListener<Comic>() {
 
 			@Override
 			public void onLoaded(Comic result) {
 				// TODO Auto-generated method stub
-
+				System.out.println("id["+result.getId()+"]");
+				System.out.println("getDescription["+result.getDescription()+"]");
+				System.out.println("getAuthor["+result.getAuthor()+"]");
+				System.out.println("getLatestUpdateDateTime["+result.getLatestUpdateDateTime()+"]");
+				System.out.println("getEpisodesSize["+result.getEpisodes().size()+"]");
+				assertTrue(result.getEpisodes().size() > 0);
 			}
 
 		});

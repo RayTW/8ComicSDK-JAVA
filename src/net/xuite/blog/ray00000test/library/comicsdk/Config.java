@@ -8,9 +8,9 @@ public class Config {
 	public final String mComicHost = "http://www.comicbus.com/";
 	public final String mAllUrl = mComicHost + "comic/all.html";
 	public final String mCviewJSUrl = mComicHost + "js/comicview.js";
-	private final String mSmallIconUrl = mComicHost + "pics/0/%@s.jpg";
-	private final String mIconUrl = mComicHost + "pics/0/%@.jpg";
-	private final String mComicDetail = mComicHost + "html/%@.html";
+	private final String mSmallIconUrl = mComicHost + "pics/0/%ss.jpg";
+	private final String mIconUrl = mComicHost + "pics/0/%s.jpg";
+	private final String mComicDetail = mComicHost + "html/%s.html";
 
 	public String getComicDetailUrl(String comicId) {
 		return String.format(mComicDetail, comicId);
