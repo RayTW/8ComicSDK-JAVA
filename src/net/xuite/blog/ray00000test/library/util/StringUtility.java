@@ -3,7 +3,7 @@ package net.xuite.blog.ray00000test.library.util;
 /**
  * 
  * @author Ray Lee Created on 2017/08/12
- *
+ * 
  */
 public class StringUtility {
 	/**
@@ -23,7 +23,7 @@ public class StringUtility {
 	 */
 	public static String substring(String source, String upperStringFoot,
 			String lowerStringHead) {
-		
+
 		int upperIndex = source.indexOf(upperStringFoot);
 		int lowerHeadIndex = source.indexOf(lowerStringHead);
 

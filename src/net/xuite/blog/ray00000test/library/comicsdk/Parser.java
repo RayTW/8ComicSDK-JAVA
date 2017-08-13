@@ -87,7 +87,8 @@ public class Parser {
 			if (findCviewUpper != NOT_FOUND) {
 				nameTagLower = txt.indexOf(nameTag);
 
-				data = txt.substring(findCviewUpper + findCview.length(), nameTagLower);
+				data = txt.substring(findCviewUpper + findCview.length(),
+						nameTagLower);
 				data = data.replaceAll("'", "");
 				dataAry = data.split("[,]");
 				ch = dataAry[0].split("[-]")[1].replaceFirst(".html", "");

@@ -31,7 +31,7 @@ public class Episode {
 		int totalPage = mPs;
 
 		mImageUrl.clear();
-		
+
 		for (int i = 0; i < totalPage; i++) {
 			mImageUrl.add(si(i + 1));
 		}
