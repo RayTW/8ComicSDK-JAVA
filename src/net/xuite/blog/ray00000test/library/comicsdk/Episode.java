@@ -1,6 +1,7 @@
 package net.xuite.blog.ray00000test.library.comicsdk;
 
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 
@@ -19,7 +20,7 @@ public class Episode {
 	private int mPs = 0; // 漫畫總頁數
 	private String mCs = "";
 	private String mC = "";
-	private List<String> mImageUrl;
+	private List<String> mImageUrl = new CopyOnWriteArrayList<String>();
 	private static final int F = 50;
 
 	/**
@@ -29,6 +30,8 @@ public class Episode {
 		sp();
 		int totalPage = mPs;
 
+		mImageUrl.clear();
+		
 		for (int i = 0; i < totalPage; i++) {
 			mImageUrl.add(si(i + 1));
 		}

@@ -87,7 +87,7 @@ public class Parser {
 			if (findCviewUpper != NOT_FOUND) {
 				nameTagLower = txt.indexOf(nameTag);
 
-				data = txt.substring(findCviewUpper, nameTagLower);
+				data = txt.substring(findCviewUpper + findCview.length(), nameTagLower);
 				data = data.replaceAll("'", "");
 				dataAry = data.split("[,]");
 				ch = dataAry[0].split("[-]")[1].replaceFirst(".html", "");
@@ -127,6 +127,7 @@ public class Parser {
 				// 解析作者
 				if (comic.getAuthor() == null) {
 					if (txt.indexOf(authorTag) != NOT_FOUND) {
+						comic.setAuthor(replaceTag(html[i + 1]));
 					}
 				} else if (comic.getLatestUpdateDateTime() == null) {
 					// 解析最新更新日期

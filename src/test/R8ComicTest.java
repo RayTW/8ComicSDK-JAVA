@@ -8,6 +8,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import net.xuite.blog.ray00000test.library.comicsdk.Comic;
+import net.xuite.blog.ray00000test.library.comicsdk.Episode;
 import net.xuite.blog.ray00000test.library.comicsdk.R8Comic;
 import net.xuite.blog.ray00000test.library.comicsdk.R8Comic.OnLoadListener;
 
@@ -32,7 +33,6 @@ public class R8ComicTest {
 
 	@Test
 	public void testLoadComicDetail() {
-		// fail("Not yet implemented");
 		Comic comic = new Comic();
 		comic.setId("103");
 		comic.setName("海賊王");
@@ -55,7 +55,52 @@ public class R8ComicTest {
 
 	@Test
 	public void testLoadEpisodeDetail() {
-		fail("Not yet implemented");
+		R8Comic.get().loadSiteUrlList(new OnLoadListener<Map<String, String>>() {
+
+			@Override
+			public void onLoaded(final Map<String, String> hostList) {
+				Comic comic = new Comic();
+				comic.setId("103");
+				comic.setName("海賊王");
+
+				R8Comic.get().loadComicDetail(comic, new OnLoadListener<Comic>() {
+
+					@Override
+					public void onLoaded(Comic result) {
+						// TODO Auto-generated method stub
+						System.out.println("id["+result.getId()+"]");
+						System.out.println("getDescription["+result.getDescription()+"]");
+						System.out.println("getAuthor["+result.getAuthor()+"]");
+						System.out.println("getLatestUpdateDateTime["+result.getLatestUpdateDateTime()+"]");
+						System.out.println("getEpisodesSize["+result.getEpisodes().size()+"]");
+						
+						if(result.getEpisodes().size() > 0){
+							Episode episode = result.getEpisodes().get(0);
+							System.out.println("episode.getCatid()==["+episode.getCatid()+"]");
+							String downloadHost = hostList.get(episode.getCatid());
+							System.out.println("downloadHost["+downloadHost+"]");
+							
+							episode.setUrl(downloadHost + episode.getUrl());
+							
+							R8Comic.get().loadEpisodeDetail(episode, new OnLoadListener<Episode>() {
+
+								@Override
+								public void onLoaded(Episode result) {
+									result.setUpPages();
+									
+									System.out.println(result.getImageUrlList());
+									
+									assertTrue(result.getImageUrlList().size() > 0);
+								}
+
+							});
+						}
+					}
+
+				});
+			}
+
+		});
 	}
 
 	@Test
