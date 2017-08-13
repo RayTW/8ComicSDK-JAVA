@@ -117,14 +117,6 @@ public class Episode {
 		mCs = cs;
 	}
 
-	public String getC() {
-		return mC;
-	}
-
-	public void setC(String c) {
-		mC = c;
-	}
-
 	public List<String> getImageUrlList() {
 		return mImageUrl;
 	}
