@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
 Bundle-Name: 8Comic SDK
 Build-Jdk: 1.7.0_79
-Bundle-Version: 1.0.0
+Bundle-Version: 1.1.0
 
