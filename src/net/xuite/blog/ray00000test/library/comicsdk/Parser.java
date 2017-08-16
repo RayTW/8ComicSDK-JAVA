@@ -61,6 +61,54 @@ public class Parser {
 
 		return comicAry;
 	}
+	
+	/**
+	 * 解析單筆最新漫畫資訊
+	 * 
+	 * @return
+	 */
+	public List<Comic> newestComics(List<Comic> comicAry, String htmlString) {
+		String findTagStart = "<td height=\"30\" nowrap> · <a href='/html/";
+		String findTagEnd = ".html' >";
+		String nameTagEnd = "  [ 漫畫";
+		String actTagEnd = " ]";
+		String[] htmlList = htmlString.split(System.lineSeparator());
+		String html = null;
+		String nextHtml = null;
+		
+		for(int i = 0; i < htmlList.length; i++){
+			html = htmlList[i];
+			
+			if(html.indexOf(findTagStart) != NOT_FOUND){
+				nextHtml = htmlList[i + 1];
+				int start = html.indexOf(findTagStart);
+
+				if (start != NOT_FOUND) {
+					Comic comic = new Comic();
+
+					// 解析漫畫編號
+					int end = html.indexOf(findTagEnd);
+					String comicId = html.substring(start + findTagStart.length(), end);
+
+					// 解析漫畫名稱
+					String comicName = nextHtml.substring(0,
+							nextHtml.indexOf(nameTagEnd));
+
+					// 解析最新集數
+					String act = StringUtility.substring(nextHtml, nameTagEnd, actTagEnd);
+					
+					comic.setId(comicId);
+					comic.setName(comicName);
+					comic.setIconUrl(comicId);
+					comic.setSmallIconUrl(comicId);
+					comic.setNewestEpisode(act);
+					comicAry.add(comic);
+				}
+			}
+			
+		}
+		return comicAry;
+	}
 
 	public Comic comicDetail(String htmlString, Comic comic) {
 		int nameTagLower = NOT_FOUND;

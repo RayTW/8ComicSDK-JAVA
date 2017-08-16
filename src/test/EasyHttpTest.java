@@ -34,12 +34,8 @@ public class EasyHttpTest {
 
 	public static void main(String[] args) {
 
-		// EasyHttpTest test = new EasyHttpTest();
-		// test.testConnect();
-
-		String str = "'103-754.html',6,1";
-
-		System.out.println(str.replaceAll("'", ""));
+		 EasyHttpTest test = new EasyHttpTest();
+		 test.testConnect();
 	}
 
 }

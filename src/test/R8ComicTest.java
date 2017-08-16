@@ -30,12 +30,29 @@ public class R8ComicTest {
 
 		});
 	}
+	
+	@Test
+	public void testGetNewest() {
+		R8Comic.get().getNewest(new OnLoadListener<List<Comic>>() {
+
+			@Override
+			public void onLoaded(List<Comic> result) {
+
+				 for (Comic comic : result) {
+					 System.out.println(comic.getId() + "," + comic.getName() + "," + comic.getNewestEpisode());
+				 }
+
+				assertTrue(result.size() > 0);
+			}
+
+		});
+	}
 
 	@Test
 	public void testLoadComicDetail() {
 		Comic comic = new Comic();
-		comic.setId("103");
-		comic.setName("海賊王");
+		comic.setId("10406");
+		comic.setName("一拳超人");
 
 		R8Comic.get().loadComicDetail(comic, new OnLoadListener<Comic>() {
 

@@ -1,6 +1,7 @@
 package net.xuite.blog.ray00000test.library.comicsdk;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +35,25 @@ public class R8Comic {
 	public void getAll(OnLoadListener<List<Comic>> listener) {
 		String htmlString = requestGetHttp(mConfig.mAllUrl);
 		List<Comic> result = mParser.allComics(htmlString, mConfig);
+
+		if (listener != null) {
+			listener.onLoaded(result);
+		}
+	}
+	
+	/**
+	 * 讀取最新有更新的漫畫編號、名稱
+	 **/
+	public void getNewest(OnLoadListener<List<Comic>> listener) {
+		List<Comic> result = new ArrayList<Comic>();
+		String htmlString = null;
+		
+		for(int i = 1; i <= mConfig.NEWEST_MAX_PAGE; i++){
+			htmlString = requestGetHttp(mConfig.getNewestUrl(i));
+			
+			mParser.newestComics(result, htmlString);
+		}
+		
 
 		if (listener != null) {
 			listener.onLoaded(result);

@@ -15,6 +15,7 @@ public class Comic {
 	private String mAuthor;// 漫畫作者
 	private String mLatestUpdateDateTime;// 最後更新的時間
 	private String mDescription;// 漫畫描述
+	private String mNewestEpisode;//最新集數
 	private List<Episode> mEpisodes;// 漫畫集數列表
 
 	public String getId() {
@@ -71,6 +72,14 @@ public class Comic {
 
 	public void setDescription(String description) {
 		mDescription = description;
+	}
+	
+	public String getNewestEpisode() {
+		return mNewestEpisode;
+	}
+
+	public void setNewestEpisode(String newestEpisode) {
+		mNewestEpisode = newestEpisode;
 	}
 
 	public List<Episode> getEpisodes() {
