@@ -107,10 +107,8 @@ public class R8ComicTest {
 											Episode episode = result
 													.getEpisodes().get(0);
 											System.out
-													.println("episode.getCatid()==["
-															+ episode
-																	.getCatid()
-															+ "]");
+													.println("episode=="
+															+ episode);
 											String downloadHost = hostList
 													.get(episode.getCatid());
 											System.out.println("downloadHost["
@@ -128,7 +126,8 @@ public class R8ComicTest {
 																public void onLoaded(
 																		Episode result) {
 																	result.setUpPages();
-
+																	System.out
+																	.println(result);
 																	System.out
 																			.println(result
 																					.getImageUrlList());

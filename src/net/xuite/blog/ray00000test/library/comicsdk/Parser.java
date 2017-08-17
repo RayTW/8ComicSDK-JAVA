@@ -134,7 +134,6 @@ public class Parser {
 
 			if (findCviewUpper != NOT_FOUND) {
 				nameTagLower = txt.indexOf(nameTag);
-
 				data = txt.substring(findCviewUpper + findCview.length(),
 						nameTagLower);
 				data = data.replaceAll("'", "");
@@ -230,7 +229,7 @@ public class Parser {
 		String startTagTi = "var ti=";
 		String endTagTi = ";var cs=";
 		String startTagCs = "var cs='";
-		String endTagCs = "';eval(unescape('";
+		String endTagCs = "';for(var";
 
 		for (String txt : html) {
 			String chs = StringUtility.substring(txt, startTagChs, endTagChs);
@@ -245,6 +244,7 @@ public class Parser {
 			}
 			if (cs != null) {
 				episode.setCs(cs);
+				episode.setSourceHtml(txt);
 				break;
 			}
 		}
