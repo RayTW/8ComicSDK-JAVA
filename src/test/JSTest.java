@@ -1,5 +1,9 @@
 package test;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -18,20 +22,33 @@ public class JSTest {
 		int p = 1;
 		int ch = 1;
 		int y = 46;
-		
-		invokeJS(js, y, ch, p);
+
+		List<String> ret = invokeJS(js, y, ch);
+
+		System.out.println("ret==>" + ret);
 	}
 
-	public static void invokeJS(String js, int y, int ch, int p) {
+	public static List<String> invokeJS(String js, int y, int ch) {
+		ArrayList<String> pagsList = new ArrayList<String>();
+
 		System.out.println(StringUtility.substring(js, ";for(var i=0;i<", ";i++"));
 
 		String str = js.substring(0, js.indexOf("var pt="));
-		str = str.replace("ge('TheImg').src", "return src");
+		str = str.replace("ge('TheImg').src", "var src");
+		String unuseScript = StringUtility.substring(str, "\'.jpg\';", "break;");
 
 		System.out.println(str);
 
-		String script = "function sp2(ch, y, p){" + str + "} " + buildNviewJS();
-
+		System.out.println("unuseScript==" + unuseScript);
+		str = str.replace(unuseScript, "");
+		System.out.println("str-->" + str);
+		String varSrc = StringUtility.substring(str, "ci = i; ", "break;");
+		System.out.println("varSrc-->" + varSrc);
+		String getPageJS = String.format(buildGetPagesJS(), varSrc);
+		str = str.replace(varSrc, "");
+		str = str.replace("break;", getPageJS);
+		String script = "function sp2(ch, y){" + str + "} " + buildNviewJS();
+		System.out.println("script-->" + script);
 		ScriptEngineManager manager = new ScriptEngineManager();
 		ScriptEngine engine = manager.getEngineByName("JavaScript");
 
@@ -42,13 +59,20 @@ public class JSTest {
 		}
 		Invocable inv = (Invocable) engine;
 		try {
-			Object ret = inv.invokeFunction("sp2", ch, y, p);
+			ScriptObjectMirror ret = (ScriptObjectMirror) inv.invokeFunction("sp2", ch, y);
+			String url = null;
 
-			System.out.println(ret);
-		} catch (NoSuchMethodException | ScriptException e) {
-			// TODO Auto-generated catch block
+			ret.callMember("reverse");
+
+			while ((Integer) ret.get("length") > 0) {
+				url = (String) ret.callMember("pop");
+				pagsList.add(url);
+			}
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return pagsList;
 	}
 
 	public static String buildNviewJS() {
@@ -69,6 +93,17 @@ public class JSTest {
 		buf.append("function mm(p) {").append("return (parseInt((p - 1) / 10) % 10) + (((p - 1) % 10) * 3)")
 				.append("}");
 
+		return buf.toString();
+	}
+
+	public static String buildGetPagesJS() {
+		StringBuilder buf = new StringBuilder();
+		buf.append("var result = [];");
+		buf.append("for(var p = 1; p < ps; p++){");
+		buf.append("%s");
+		buf.append("result.push(src);");
+		buf.append("}");
+		buf.append("return result;");
 		return buf.toString();
 	}
 }

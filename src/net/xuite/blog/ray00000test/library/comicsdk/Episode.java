@@ -26,6 +26,7 @@ public class Episode {
 	 */
 	public void setUpPages() {
 		mImageUrl = mJSnview.setupPagesDownloadUrl();
+		System.out.println("setUpPages==>"+mImageUrl);
 	}
 
 	/*
