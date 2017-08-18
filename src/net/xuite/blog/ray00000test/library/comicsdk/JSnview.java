@@ -6,9 +6,8 @@ import java.util.List;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 
-import jdk.nashorn.api.scripting.ScriptObjectMirror;
+import sun.org.mozilla.javascript.internal.NativeArray;
 import net.xuite.blog.ray00000test.library.util.StringUtility;
 
 /**
@@ -98,27 +97,19 @@ public class JSnview {
 		String script = "function sp2(ch, y){" + str + "} " + buildNviewJS();
 		ScriptEngineManager manager = new ScriptEngineManager();
 		ScriptEngine engine = manager.getEngineByName("JavaScript");
-
+		
 		try {
 			engine.eval(script);
-		} catch (ScriptException e1) {
-			e1.printStackTrace();
-		}
-		Invocable inv = (Invocable) engine;
-		try {
-			ScriptObjectMirror ret = (ScriptObjectMirror) inv.invokeFunction("sp2", ch, y);
-			String url = null;
-
-			ret.callMember("reverse");
-
-			while ((Integer) ret.get("length") > 0) {
-				url = (String) ret.callMember("pop");
-				pagsList.add(url);
+			Invocable inv = (Invocable) engine;
+			NativeArray ret = (NativeArray) inv.invokeFunction("sp2", ch, y);
+			
+			for(Object obj : ret){
+				pagsList.add(obj.toString());
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		return pagsList;
 	}
 
