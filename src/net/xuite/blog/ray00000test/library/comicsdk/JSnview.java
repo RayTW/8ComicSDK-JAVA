@@ -23,7 +23,6 @@ public class JSnview {
 	private int mCh;
 	private int mChs = 0;
 	private int mTi = 0;
-	private int mPs = 0; // 漫畫總頁數
 	private String mCs = "";
 	private String mC = "";
 	private static final int Y = 46;
@@ -60,10 +59,6 @@ public class JSnview {
 
 	public void setTi(int ti) {
 		mTi = ti;
-	}
-
-	public int getPages() {
-		return mPs;
 	}
 
 	/*

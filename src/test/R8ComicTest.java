@@ -132,9 +132,7 @@ public class R8ComicTest {
 																			.println(result
 																					.getImageUrlList());
 
-																	assertTrue(result
-																			.getImageUrlList()
-																			.size() > 0);
+																	assertTrue(result.getPages() > 0);
 																}
 
 															});

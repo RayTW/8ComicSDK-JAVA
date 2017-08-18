@@ -87,7 +87,10 @@ public class Episode {
 	}
 	
 	public int getPages() {
-		return mJSnview.getPages();
+		if(mImageUrl == null){
+			return 0;
+		}
+		return mImageUrl.size();
 	}
 	
 	public String toString(){
@@ -100,7 +103,7 @@ public class Episode {
 		.append("mCh=["+mJSnview.getCh()+"]")
 		.append("mChs=["+mJSnview.getChs()+"]")
 		.append("mTi=["+mJSnview.getTi()+"]")
-		.append("mPs=["+mJSnview.getPages()+"]")
+		.append("mPs=["+getPages()+"]")
 		.append("mCs=["+mJSnview.getCs()+"]")
 		.append("mC=["+mJSnview.getC()+"]");
 		
