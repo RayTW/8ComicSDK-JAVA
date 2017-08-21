@@ -3,11 +3,12 @@ package net.xuite.blog.ray00000test.library.comicsdk;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.script.Bindings;
 import javax.script.Invocable;
+import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
-import sun.org.mozilla.javascript.internal.NativeArray;
 import net.xuite.blog.ray00000test.library.util.StringUtility;
 
 /**
@@ -99,13 +100,14 @@ public class JSnview {
 		ScriptEngine engine = manager.getEngineByName("JavaScript");
 		
 		try {
+			Bindings bind = engine.createBindings(); 
+	        bind.put("pagsList", pagsList); 
+	        engine.setBindings(bind, ScriptContext.ENGINE_SCOPE); 
+			
 			engine.eval(script);
 			Invocable inv = (Invocable) engine;
-			NativeArray ret = (NativeArray) inv.invokeFunction("sp2", ch, y);
+			inv.invokeFunction("sp2", ch, y);
 			
-			for(Object obj : ret){
-				pagsList.add(obj.toString());
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -136,12 +138,11 @@ public class JSnview {
 
 	private String buildGetPagesJS() {
 		StringBuilder buf = new StringBuilder();
-		buf.append("var result = [];");
 		buf.append("for(var p = 1; p < ps; p++){");
 		buf.append("%s");
-		buf.append("result.push(src);");
+		buf.append("pagsList.add(src)");//將漫畫下載網址放到java的ArrayList
 		buf.append("}");
-		buf.append("return result;");
+		buf.append("return;");
 		return buf.toString();
 	}
 }
