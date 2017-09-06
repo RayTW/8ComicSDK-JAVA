@@ -106,8 +106,8 @@ public class R8Comic {
 		return mConfig;
 	}
 
-	public static interface OnLoadListener<Result> {
-		public abstract void onLoaded(Result result);
+	public static interface OnLoadListener<T> {
+		public abstract void onLoaded(T result);
 	}
 
 	private String requestGetHttp(String url) {

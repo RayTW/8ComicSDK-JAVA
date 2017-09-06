@@ -209,8 +209,8 @@ public class EasyHttp {
 			return this;
 		}
 
-		public Builder setUserAgent(String userAget) {
-			putHeader("User-Agent", userAget);
+		public Builder setUserAgent(String userAgent) {
+			putHeader("User-Agent", userAgent);
 			return this;
 		}
 
