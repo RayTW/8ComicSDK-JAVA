@@ -110,6 +110,13 @@ public class Parser {
 		return comicAry;
 	}
 
+	/**
+	 * 解析漫畫作者、說明、簡介等等資訊
+	 * 
+	 * @param htmlString
+	 * @param comic
+	 * @return
+	 */
 	public Comic comicDetail(String htmlString, Comic comic) {
 		int nameTagLower = NOT_FOUND;
 		int findCviewUpper = NOT_FOUND;
@@ -190,6 +197,11 @@ public class Parser {
 		return comic;
 	}
 
+	/**
+	 * 解析漫畫圖片存放的伺服器host列表
+	 * @param htmlString
+	 * @return
+	 */
 	public Map<String, String> cviewJS(String htmlString) {
 		Map<String, String> cviewMap = new HashMap<String, String>();
 
@@ -284,7 +296,7 @@ public class Parser {
 	}
 
 	/**
-	 * 去除javascripts語法tag(包含tag裡面的程式)
+	 * 去除java scripts語法tag(包含tag裡面的程式)
 	 * 
 	 * @param st
 	 * @return

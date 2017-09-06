@@ -50,6 +50,10 @@ public class Episode {
 		mUrl = url;
 	}
 
+	/**
+	 * 對應漫畫圖片存放的伺服器host網址
+	 * @return
+	 */
 	public String getCatid() {
 		return mCatid;
 	}
@@ -82,10 +86,18 @@ public class Episode {
 		mJSnview.setCs(cs);
 	}
 	
+	/**
+	 * 取得全部漫畫圖片
+	 * @return
+	 */
 	public List<String> getImageUrlList() {
 		return mImageUrl;
 	}
 	
+	/**
+	 * 漫畫總頁數
+	 * @return
+	 */
 	public int getPages() {
 		if(mImageUrl == null){
 			return 0;
