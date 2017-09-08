@@ -33,4 +33,17 @@ public class StringUtility {
 		}
 		return null;
 	}
+	
+	public static String lastSubstring(String source, String upperStringFoot,
+			String lowerStringHead) {
+
+		int upperIndex = source.lastIndexOf(upperStringFoot);
+		int lowerHeadIndex = source.lastIndexOf(lowerStringHead);
+
+		if (upperIndex != -1 && lowerHeadIndex != -1) {
+			return source.substring(upperIndex + upperStringFoot.length(),
+					lowerHeadIndex);
+		}
+		return null;
+	}
 }
