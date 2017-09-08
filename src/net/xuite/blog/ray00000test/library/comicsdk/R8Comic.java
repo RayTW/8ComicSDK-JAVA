@@ -109,17 +109,20 @@ public class R8Comic {
 	public static interface OnLoadListener<T> {
 		public abstract void onLoaded(T result);
 	}
-
+	
+	//預設讀取html回來後，用big5解析
 	private String requestGetHttp(String url) {
 		String result = null;
 		EasyHttp request = new EasyHttp.Builder()
 				.setUrl(url)
 				.setMethod("GET")
 				.setIsRedirect(true)
-				.setCharset("BIG5")
+				.setWriteCharset("BIG5")
+				.setReadCharset("BIG5")
+				.setReferer(mConfig.getComicHost())
 				.putHeader(
 						"Accept",
-						"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8")
+						"*/*")
 				.putHeader("Accept-Encoding", "gzip, deflate, br")
 				.setUserAgent(
 						"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36")
