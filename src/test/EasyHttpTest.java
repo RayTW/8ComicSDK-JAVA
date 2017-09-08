@@ -12,7 +12,7 @@ public class EasyHttpTest {
 				.setUrl("https://github.com/RayTW/8ComicSDK-JAVA")
 				.setMethod("GET")
 				.setIsRedirect(true)
-				.setCharset("UTF-8")
+				.setWriteCharset("UTF-8")
 				.putHeader(
 						"Accept",
 						"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8")

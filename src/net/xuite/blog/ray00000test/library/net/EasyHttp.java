@@ -15,6 +15,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.InflaterInputStream;
 
@@ -24,9 +26,12 @@ import java.util.zip.InflaterInputStream;
  * @author Ray Lee Created on 2017/08/11
  */
 public class EasyHttp {
+	private static final Pattern sCharsetPattern = Pattern.compile("(?i)\\bcharset=\\s*\"?([^\\s;\"]*)");
+
 	private String mUrl;
 	private String mMethod;
-	private String mCharset;
+	private String mWriteCharset = "UTF-8";//default
+	private String mReadCharset = "UTF-8";//default
 	private Boolean mIsRedirect;
 	private Long mReadTimeout;
 	private Long mConnectTimeout;
@@ -79,7 +84,7 @@ public class EasyHttp {
 		if (!isGet && queryString != null && !queryString.isEmpty()) {
 			BufferedOutputStream dos = new BufferedOutputStream(
 					new DataOutputStream(connection.getOutputStream()));
-			dos.write(queryString.getBytes(mCharset));
+			dos.write(queryString.getBytes(mWriteCharset));
 			dos.flush();
 			dos.close();
 		}
@@ -112,13 +117,21 @@ public class EasyHttp {
 		int code = connection.getResponseCode();
 		InputStream inputStream = null;
 		String body = null;
+		String contentType = connection.getHeaderField("content-type");
+		String useCharset = getCharsetFromContentType(contentType);
+		
+		//取reponse取得的chsetat為null時，採用預設的charset
+		if(useCharset == null){
+			useCharset = mReadCharset;
+		}
+		
 		try {
 			inputStream = getInputStream(connection);
-			body = readString(inputStream, mCharset, newline);
+			body = readString(inputStream, useCharset, newline);
 		} catch (IOException e) {
 			e.printStackTrace();
 			inputStream = getErrorStream(connection);
-			body = readString(inputStream, mCharset, newline);
+			body = readString(inputStream, useCharset, newline);
 		}
 
 		return new Response(code, body, connection.getHeaderFields());
@@ -164,11 +177,24 @@ public class EasyHttp {
 		}
 		return connection.getErrorStream();
 	}
+	
+	  private String getCharsetFromContentType(String contentType) {
+	    if (contentType == null){
+	    	return null;
+	    }
+
+	    Matcher m = sCharsetPattern.matcher(contentType);
+	    if (m.find()) {
+	      return m.group(1).trim().toUpperCase();
+	    }
+	    return null;
+	  }
 
 	public static class Builder {
 		private String mUrl;
 		private String mMethod;
-		private String mCharset;
+		private String mWriteCharset;
+		private String mReadCharset;
 		private Boolean mIsRedirect;
 		private Long mReadTimeout;
 		private Long mConnectTimeout;
@@ -199,8 +225,13 @@ public class EasyHttp {
 			return this;
 		}
 
-		public Builder setCharset(String charset) {
-			mCharset = charset;
+		public Builder setWriteCharset(String charset) {
+			mWriteCharset = charset;
+			return this;
+		}
+		
+		public Builder setReadCharset(String charset) {
+			mReadCharset = charset;
 			return this;
 		}
 
@@ -238,7 +269,14 @@ public class EasyHttp {
 			EasyHttp obj = new EasyHttp();
 			obj.mUrl = mUrl;
 			obj.mMethod = mMethod;
-			obj.mCharset = mCharset;
+			
+			if(mWriteCharset != null){
+				obj.mWriteCharset = mWriteCharset;
+			}
+			
+			if(mReadCharset != null){
+				obj.mReadCharset = mReadCharset;
+			}
 
 			if (mIsRedirect != null) {
 				obj.mIsRedirect = mIsRedirect;

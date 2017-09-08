@@ -33,7 +33,7 @@ public class R8Comic {
 	 * 讀取全部漫畫編號、名稱
 	 **/
 	public void getAll(OnLoadListener<List<Comic>> listener) {
-		String htmlString = requestGetHttp(mConfig.mAllUrl);
+		String htmlString = requestGetHttp(mConfig.getAllUrl());
 		List<Comic> result = mParser.allComics(htmlString, mConfig);
 
 		if (listener != null) {
@@ -90,8 +90,64 @@ public class R8Comic {
 	 * 讀取漫畫圖片實際存放的Server site網址列表
 	 **/
 	public void loadSiteUrlList(OnLoadListener<Map<String, String>> listener) {
-		String htmlString = requestGetHttp(mConfig.mCviewJSUrl);
+		String htmlString = requestGetHttp(mConfig.getCviewJSUrl());
 		Map<String, String> result = mParser.cviewJS(htmlString);
+
+		if (listener != null) {
+			listener.onLoaded(result);
+		}
+	}
+	
+	/**
+	 * 搜尋漫畫，搜尋到的漫畫僅有id、name，不包含漫畫簡介、集數等等資訊
+	 * 
+	 **/
+	public void searchComic(String keyword, OnLoadListener<List<Comic>> listener) {
+		final List<Comic> result = new ArrayList<Comic>();
+		
+		//先搜尋一次
+		String htmlString = requestGetHttp(mConfig.getSearchUrl(keyword, 1));
+		int maxPage = mParser.searchComic(htmlString, new OnLoadListener<List<Comic>>(){
+
+			@Override
+			public void onLoaded(List<Comic> comics) {
+				if(comics.isEmpty()){
+					return;
+				}
+				result.addAll(comics);
+			}
+			
+		});
+		
+		//若搜尋後，總頁數還有結果筆數，則將進行逐頁讀取
+		if(maxPage > 1){
+			for(int i = 2; i < maxPage; i++){
+				htmlString = requestGetHttp(mConfig.getSearchUrl(keyword, i));
+				mParser.searchComic(htmlString, new OnLoadListener<List<Comic>>(){
+
+					@Override
+					public void onLoaded(List<Comic> comics) {
+						if(comics.isEmpty()){
+							return;
+						}
+						result.addAll(comics);
+					}
+					
+				});
+			}
+		}
+
+		if (listener != null) {
+			listener.onLoaded(result);
+		}
+	}
+	
+	/**
+	 * 快速搜尋漫畫名稱
+	 **/
+	public void quickSearchComic(String keyword, OnLoadListener<List<String>> listener) {
+		String htmlString = requestGetHttp(mConfig.getQuickSearchUrl(keyword));
+		List<String> result = mParser.quickSearchComic(htmlString);
 
 		if (listener != null) {
 			listener.onLoaded(result);
@@ -109,17 +165,21 @@ public class R8Comic {
 	public static interface OnLoadListener<T> {
 		public abstract void onLoaded(T result);
 	}
-
+	
+	//預設讀取html回來後，用big5解析
 	private String requestGetHttp(String url) {
+		System.out.println("url=>" + url);
 		String result = null;
 		EasyHttp request = new EasyHttp.Builder()
 				.setUrl(url)
 				.setMethod("GET")
 				.setIsRedirect(true)
-				.setCharset("BIG5")
+				.setWriteCharset("BIG5")
+				.setReadCharset("BIG5")
+				.setReferer(mConfig.getComicHost())
 				.putHeader(
 						"Accept",
-						"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8")
+						"*/*")
 				.putHeader("Accept-Encoding", "gzip, deflate, br")
 				.setUserAgent(
 						"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36")
