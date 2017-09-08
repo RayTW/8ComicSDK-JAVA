@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 import org.junit.Test;
 
@@ -16,6 +17,8 @@ public class R8ComicTest {
 
 	@Test
 	public void testGetAll() {
+		final CountDownLatch signal = new CountDownLatch(1);
+
 		R8Comic.get().getAll(new OnLoadListener<List<Comic>>() {
 
 			@Override
@@ -26,13 +29,21 @@ public class R8ComicTest {
 				// }
 
 				assertTrue(result.size() > 0);
+				signal.countDown();
 			}
 
 		});
+		try {
+			signal.await();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
 	public void testGetNewest() {
+		final CountDownLatch signal = new CountDownLatch(1);
+		
 		R8Comic.get().getNewest(new OnLoadListener<List<Comic>>() {
 
 			@Override
@@ -43,13 +54,20 @@ public class R8ComicTest {
 				 }
 
 				assertTrue(result.size() > 0);
+				signal.countDown();
 			}
 
 		});
+		try {
+			signal.await();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
 	public void testLoadComicDetail() {
+		final CountDownLatch signal = new CountDownLatch(1);
 		Comic comic = new Comic();
 		comic.setId("10406");
 		comic.setName("一拳超人");
@@ -68,13 +86,20 @@ public class R8ComicTest {
 				System.out.println("getEpisodesSize["
 						+ result.getEpisodes().size() + "]");
 				assertTrue(result.getEpisodes().size() > 0);
+				signal.countDown();
 			}
 
 		});
+		try {
+			signal.await();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
 	public void testLoadEpisodeDetail() {
+		final CountDownLatch signal = new CountDownLatch(1);
 		R8Comic.get().loadSiteUrlList(
 				new OnLoadListener<Map<String, String>>() {
 
@@ -133,6 +158,7 @@ public class R8ComicTest {
 																					.getImageUrlList());
 
 																	assertTrue(result.getPages() > 0);
+																	signal.countDown();
 																}
 
 															});
@@ -143,10 +169,16 @@ public class R8ComicTest {
 					}
 
 				});
+		try {
+			signal.await();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
 	public void testLoadSiteUrlList() {
+		final CountDownLatch signal = new CountDownLatch(1);
 		R8Comic.get().loadSiteUrlList(
 				new OnLoadListener<Map<String, String>>() {
 
@@ -154,26 +186,40 @@ public class R8ComicTest {
 					public void onLoaded(Map<String, String> result) {
 						System.out.println(result);
 						assertTrue(result.size() > 0);
+						signal.countDown();
 					}
 
 				});
+		try {
+			signal.await();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
 	public void testQuickSearchComic() {
+		final CountDownLatch signal = new CountDownLatch(1);
 		R8Comic.get().quickSearchComic("1", new OnLoadListener<List<String>>(){
 
 			@Override
 			public void onLoaded(List<String> result) {
 				System.out.println(result);
 				assertTrue(result.size() > 0);
+				signal.countDown();
 			}
 			
 		});
+		try {
+			signal.await();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
 	public void testSearchComicHaveComic() {
+		final CountDownLatch signal = new CountDownLatch(1);
 		final String searchKeyword = "1";
 		
 		R8Comic.get().searchComic(searchKeyword, new OnLoadListener<List<Comic>>(){
@@ -186,15 +232,21 @@ public class R8ComicTest {
 					System.out.println("index["+(++index)+"],id["+comic.getId()+"], name["+comic.getName()+"]");
 				}
 				assertTrue(result.size() > 0);
+				signal.countDown();
 			}
 			
 		});
+		try {
+			signal.await();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
 	public void testSearchComicEmpty() {
+		final CountDownLatch signal = new CountDownLatch(1);
 		final String searchKeyword = "ddddddd";
-		
 		R8Comic.get().searchComic(searchKeyword, new OnLoadListener<List<Comic>>(){
 
 			@Override
@@ -205,8 +257,14 @@ public class R8ComicTest {
 					System.out.println("index["+(++index)+"],id["+comic.getId()+"], name["+comic.getName()+"]");
 				}
 				assertTrue(result.size() == 0);
+				signal.countDown();
 			}
 			
 		});
+		try {
+			signal.await();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }
