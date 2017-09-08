@@ -31,6 +31,7 @@ public class R8Comic {
 
 	/**
 	 * 讀取全部漫畫編號、名稱
+	 * @param listener
 	 **/
 	public void getAll(OnLoadListener<List<Comic>> listener) {
 		String htmlString = requestGetHttp(mConfig.getAllUrl());
@@ -43,6 +44,7 @@ public class R8Comic {
 	
 	/**
 	 * 讀取最新有更新的漫畫編號、名稱
+	 * @param listener
 	 **/
 	public void getNewest(OnLoadListener<List<Comic>> listener) {
 		List<Comic> result = new ArrayList<Comic>();
@@ -62,7 +64,9 @@ public class R8Comic {
 
 	/**
 	 * 讀取漫畫簡介、作者、最後更新日期、集數列表
-	 **/
+	 * @param comic 一款漫畫
+	 * @param listener 讀取一款漫畫完成後將會回呼
+	 */
 	public void loadComicDetail(Comic comic, OnLoadListener<Comic> listener) {
 		String htmlString = requestGetHttp(mConfig.getComicDetailUrl(comic
 				.getId()));
@@ -75,7 +79,9 @@ public class R8Comic {
 
 	/**
 	 * 讀取漫畫簡介、作者、最後更新日期、集數列表
-	 **/
+	 * @param episode 一集(卷)漫畫
+	 * @param listener 讀取完成後將會回呼
+	 */
 	public void loadEpisodeDetail(Episode episode,
 			OnLoadListener<Episode> listener) {
 		String htmlString = requestGetHttp(episode.getUrl());
@@ -88,6 +94,7 @@ public class R8Comic {
 
 	/**
 	 * 讀取漫畫圖片實際存放的Server site網址列表
+	 * @param listener 讀取完成後將會回呼
 	 **/
 	public void loadSiteUrlList(OnLoadListener<Map<String, String>> listener) {
 		String htmlString = requestGetHttp(mConfig.getCviewJSUrl());
@@ -100,8 +107,9 @@ public class R8Comic {
 	
 	/**
 	 * 搜尋漫畫，搜尋到的漫畫僅有id、name，不包含漫畫簡介、集數等等資訊
-	 * 
-	 **/
+	 * @param keyword 搜尋漫畫的關鍵字，比如"海賊王"
+	 * @param listener
+	 */
 	public void searchComic(String keyword, OnLoadListener<List<Comic>> listener) {
 		final List<Comic> result = new ArrayList<Comic>();
 		
@@ -144,6 +152,8 @@ public class R8Comic {
 	
 	/**
 	 * 快速搜尋漫畫名稱
+	 * @param keyword 搜尋漫畫的關鍵字，比如"海賊王"
+	 * @param listener
 	 **/
 	public void quickSearchComic(String keyword, OnLoadListener<List<String>> listener) {
 		String htmlString = requestGetHttp(mConfig.getQuickSearchUrl(keyword));
