@@ -1,10 +1,12 @@
 package net.xuite.blog.ray00000test.library.comicsdk;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.xuite.blog.ray00000test.library.comicsdk.R8Comic.OnLoadListener;
 import net.xuite.blog.ray00000test.library.util.StringUtility;
 
 /**
@@ -261,6 +263,70 @@ public class Parser {
 			}
 		}
 		return episode;
+	}
+	
+	/**
+	 * 搜尋漫畫，回傳此次搜尋結果的總頁數
+	 * 
+	 * @param htmlString
+	 * @param listener
+	 * @return 回傳此次搜尋的總頁數
+	 */
+	public int searchComic(String htmlString, OnLoadListener<List<Comic>> listener) {
+		String[] html = htmlString.split(System.lineSeparator());
+		List<Comic> comics = new ArrayList<Comic>();
+		String text = null;
+		String comicId = null;
+		String comicName = null;
+		String comidIdBegin = "<a href=\"/html/";
+		String comidIdEnd = ".html\"><img src=";
+		String comidNameBegin = "<b><font color=\"#0099CC\">";
+		String comidNameEnd = "</font></b>";
+		String pageBegin = "&page=";
+		String pageEnd = "\"><img src=/images/pagelast.gif";
+		Comic comic = null;
+		int maxPage = 1;
+
+		for (int i = 0; i < html.length; i++) {
+			text = html[i];
+
+			comicId = StringUtility.substring(text, comidIdBegin, comidIdEnd);
+
+			if (comicId != null) {
+				text = html[i + 1];
+				comicName = StringUtility.substring(text, comidNameBegin, comidNameEnd);
+				comicName = replaceTag(comicName);
+				comic = new Comic();
+				comic.setId(comicId);
+				comic.setName(comicName);
+				comic.setIconUrl(comicId);
+				comic.setSmallIconUrl(comicId);
+				comics.add(comic);
+			} else {
+				comicName = null;
+				if (text.indexOf(pageBegin) != NOT_FOUND) {
+					String p = StringUtility.lastSubstring(text, pageBegin, pageEnd);
+
+					try {
+						maxPage = Integer.parseInt(p);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+
+			}
+		}
+
+		if (listener != null) {
+			listener.onLoaded(comics);
+		}
+
+		return maxPage;
+	}
+	
+	public List<String> quickSearchComic(String htmlString){
+		String [] list = htmlString.split("[|]");
+		return Arrays.asList(list);
 	}
 
 	/**

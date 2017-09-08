@@ -159,4 +159,54 @@ public class R8ComicTest {
 				});
 	}
 
+	@Test
+	public void testQuickSearchComic() {
+		R8Comic.get().quickSearchComic("1", new OnLoadListener<List<String>>(){
+
+			@Override
+			public void onLoaded(List<String> result) {
+				System.out.println(result);
+				assertTrue(result.size() > 0);
+			}
+			
+		});
+	}
+	
+	@Test
+	public void testSearchComicHaveComic() {
+		final String searchKeyword = "1";
+		
+		R8Comic.get().searchComic(searchKeyword, new OnLoadListener<List<Comic>>(){
+
+			@Override
+			public void onLoaded(List<Comic> result) {
+				int index = 0;
+				System.out.println("搜尋\""+searchKeyword+"\"，筆數["+result.size()+"]");
+				for(Comic comic : result){
+					System.out.println("index["+(++index)+"],id["+comic.getId()+"], name["+comic.getName()+"]");
+				}
+				assertTrue(result.size() > 0);
+			}
+			
+		});
+	}
+	
+	@Test
+	public void testSearchComicEmpty() {
+		final String searchKeyword = "ddddddd";
+		
+		R8Comic.get().searchComic(searchKeyword, new OnLoadListener<List<Comic>>(){
+
+			@Override
+			public void onLoaded(List<Comic> result) {
+				int index = 0;
+				System.out.println("搜尋\""+searchKeyword+"\"，筆數["+result.size()+"]");
+				for(Comic comic : result){
+					System.out.println("index["+(++index)+"],id["+comic.getId()+"], name["+comic.getName()+"]");
+				}
+				assertTrue(result.size() == 0);
+			}
+			
+		});
+	}
 }
