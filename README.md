@@ -2,7 +2,7 @@
 可用於android、window、mac、linux上有JAVA環境就可實作下載8comic的漫畫SDK
 
 查詢jdoc文件說明:
-[8ComicSDK-JAVA-v1.2.1-jdoc](https://raytw.github.io/8ComicSDK-JAVA/1.2.1/)
+[8ComicSDK-JAVA-v1.2.2-jdoc](https://raytw.github.io/8ComicSDK-JAVA/1.2.2/)
 
 ## 範例
 
