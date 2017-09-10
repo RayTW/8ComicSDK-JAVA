@@ -12,6 +12,7 @@ import net.xuite.blog.ray00000test.library.comicsdk.Comic;
 import net.xuite.blog.ray00000test.library.comicsdk.Episode;
 import net.xuite.blog.ray00000test.library.comicsdk.R8Comic;
 import net.xuite.blog.ray00000test.library.comicsdk.R8Comic.OnLoadListener;
+import net.xuite.blog.ray00000test.library.util.StringUtility;
 
 public class R8ComicTest {
 
@@ -200,7 +201,7 @@ public class R8ComicTest {
 	@Test
 	public void testQuickSearchComic() {
 		final CountDownLatch signal = new CountDownLatch(1);
-		R8Comic.get().quickSearchComic("1", new OnLoadListener<List<String>>(){
+		R8Comic.get().quickSearchComic("中", new OnLoadListener<List<String>>(){
 
 			@Override
 			public void onLoaded(List<String> result) {
@@ -218,9 +219,9 @@ public class R8ComicTest {
 	}
 	
 	@Test
-	public void testSearchComicHaveComic() {
+	public void testSearchComicHaveComicUsingBig5() {
 		final CountDownLatch signal = new CountDownLatch(1);
-		final String searchKeyword = "1";
+		final String searchKeyword = "中";
 		
 		R8Comic.get().searchComic(searchKeyword, new OnLoadListener<List<Comic>>(){
 
@@ -267,4 +268,5 @@ public class R8ComicTest {
 			e.printStackTrace();
 		}
 	}
+	
 }

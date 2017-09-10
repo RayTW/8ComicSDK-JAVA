@@ -2,6 +2,8 @@ package net.xuite.blog.ray00000test.library.comicsdk;
 
 import java.util.Random;
 
+import net.xuite.blog.ray00000test.library.util.StringUtility;
+
 /**
  * 
  * @author Ray Lee Created on 2017/08/11
@@ -49,10 +51,10 @@ public class Config {
 	}
 	
 	public String getQuickSearchUrl(String keyword){
-		return String.format(mQuickSearchUrl, mRandom.nextDouble(), keyword);
+		return String.format(mQuickSearchUrl, mRandom.nextDouble(), StringUtility.urlencodeUsingGB2312(keyword));
 	}
 	
 	public String getSearchUrl(String keyword, int page){
-		return String.format(mSearchUrl, keyword, page);
+		return String.format(mSearchUrl, StringUtility.urlencodeUsingBIG5(keyword), page);
 	}
 }

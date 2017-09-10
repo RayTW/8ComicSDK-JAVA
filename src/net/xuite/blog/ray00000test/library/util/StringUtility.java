@@ -1,5 +1,8 @@
 package net.xuite.blog.ray00000test.library.util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 /**
  * 
  * @author Ray Lee Created on 2017/08/12
@@ -45,5 +48,22 @@ public class StringUtility {
 					lowerHeadIndex);
 		}
 		return null;
+	}
+	
+	public static String urlencodeUsingBIG5(String source){
+		return urlencodeUsing(source, "BIG5");
+	}
+	
+	public static String urlencodeUsingGB2312(String source){
+		return urlencodeUsing(source, "GB2312");
+	}
+	
+	public static String urlencodeUsing(String source, String encode){
+		try {
+			return URLEncoder.encode(source, encode);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 }
