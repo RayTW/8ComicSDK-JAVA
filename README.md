@@ -7,7 +7,7 @@
 ## 範例
 
 ### 讀取全部漫畫的列表
-```
+```java
 R8Comic.get().getAll(new OnLoadListener<List<Comic>>() {
 
 	@Override
@@ -22,7 +22,7 @@ R8Comic.get().getAll(new OnLoadListener<List<Comic>>() {
 ```
 
 ### 搜尋漫畫
-```
+```java
 final String searchKeyword = "火影";//查詢的關鍵字
 R8Comic.get().searchComic(searchKeyword, new OnLoadListener<List<Comic>>(){
 
