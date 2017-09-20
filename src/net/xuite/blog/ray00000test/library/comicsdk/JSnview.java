@@ -138,7 +138,7 @@ public class JSnview {
 
 	private String buildGetPagesJS() {
 		StringBuilder buf = new StringBuilder();
-		buf.append("for(var p = 1; p < ps; p++){");
+		buf.append("for(var p = 1; p <= ps; p++){");
 		buf.append("%s");
 		buf.append("pagsList.add(src)");//將漫畫下載網址放到java的ArrayList
 		buf.append("}");
