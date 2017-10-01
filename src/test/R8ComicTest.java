@@ -2,6 +2,9 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.sql.Ref;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
@@ -269,4 +272,80 @@ public class R8ComicTest {
 		}
 	}
 	
+	
+	@Test
+	public void testEpisodesHasRepeat() {
+		final CountDownLatch signal = new CountDownLatch(1);
+		Comic comic = new Comic();
+		comic.setId("10406");
+		comic.setName("一拳超人");
+		final Ref ref = new Ref(){
+			private Object mObj;
+
+			@Override
+			public String getBaseTypeName() throws SQLException {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Object getObject(Map<String, Class<?>> map)
+					throws SQLException {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Object getObject() throws SQLException {
+				// TODO Auto-generated method stub
+				return mObj;
+			}
+
+			@Override
+			public void setObject(Object value) throws SQLException {
+				mObj = value;				
+			}
+			
+		};
+		try {
+			ref.setObject(Boolean.FALSE);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		R8Comic.get().loadComicDetail(comic, new OnLoadListener<Comic>() {
+
+			@Override
+			public void onLoaded(Comic result) {
+				System.out.println("getEpisodesSize["
+						+ result.getEpisodes().size() + "]");
+				
+				for(Episode obj : result.getEpisodes()){
+					System.out.println(obj.getName());
+					for(Episode obj2 : result.getEpisodes()){
+						if(obj.hashCode() != obj2.hashCode() && obj.getName().equals(obj2.getName())){
+							try {
+								ref.setObject(Boolean.TRUE);
+							} catch (SQLException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				}
+				
+				signal.countDown();
+			}
+
+		});
+		try {
+			signal.await();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		try {
+			assertFalse((Boolean)ref.getObject());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

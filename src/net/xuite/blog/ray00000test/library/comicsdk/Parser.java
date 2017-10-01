@@ -128,6 +128,7 @@ public class Parser {
 		String authorTag = "作者：</td>";
 		String updateTag = "更新：</td>";
 		String nameTag = ");return";
+		String mFinishTag = "class=\"hide\"";
 		List<Episode> episodes = new ArrayList<Episode>();
 		String data = null;
 		String[] dataAry = null;
@@ -136,12 +137,21 @@ public class Parser {
 		String url = null;
 		String catid = null;
 		String copyright = null;
+		boolean isFinishEpisode = false;
 
 		for (int i = 0; i < html.length; i++) {
 			txt = html[i];
+			if(!isFinishEpisode) {
+                isFinishEpisode = txt.indexOf(mFinishTag) != NOT_FOUND;
+            }
+			
 			findCviewUpper = txt.indexOf(findCview);
 
 			if (findCviewUpper != NOT_FOUND) {
+				if(isFinishEpisode){
+					continue;
+				}
+				
 				nameTagLower = txt.indexOf(nameTag);
 				data = txt.substring(findCviewUpper + findCview.length(),
 						nameTagLower);
