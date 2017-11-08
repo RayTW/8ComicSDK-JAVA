@@ -289,7 +289,7 @@ public class Parser {
 		String comicId = null;
 		String comicName = null;
 		String comidIdBegin = "<a href=\"/html/";
-		String comidIdEnd = ".html\"><img src=";
+		String comidIdEnd = ".html\">";
 		String comidNameBegin = "<b><font color=\"#0099CC\">";
 		String comidNameEnd = "</font></b>";
 		String pageBegin = "&page=";
@@ -299,13 +299,25 @@ public class Parser {
 
 		for (int i = 0; i < html.length; i++) {
 			text = html[i];
-
-			comicId = StringUtility.substring(text, comidIdBegin, comidIdEnd);
-
-			if (comicId != null) {
-				text = html[i + 1];
-				comicName = StringUtility.substring(text, comidNameBegin, comidNameEnd);
+			
+			//先找到漫畫名稱
+			comicName = StringUtility.substring(text, comidNameBegin, comidNameEnd);
+			
+			if (comicName != null) {
 				comicName = replaceTag(comicName);
+				
+				//再找漫畫id
+				for(int j = i + 1; j < html.length; j++){
+					text = html[j];
+					comicId = StringUtility.substring(text, comidIdBegin, comidIdEnd);
+					
+					if(comicId != null){
+						//從找到漫畫id的下一行找尋下一本漫畫名稱
+						i = j + 1;
+						break;
+					}
+				}
+
 				comic = new Comic();
 				comic.setId(comicId);
 				comic.setName(comicName);
@@ -316,7 +328,7 @@ public class Parser {
 				comicName = null;
 				if (text.indexOf(pageBegin) != NOT_FOUND) {
 					String p = StringUtility.lastSubstring(text, pageBegin, pageEnd);
-
+					
 					try {
 						maxPage = Integer.parseInt(p);
 					} catch (Exception e) {
@@ -346,14 +358,17 @@ public class Parser {
 	 * @return
 	 */
 	public String replaceTag(String txt) {
+		if(txt == null){
+			return "";
+		}
 		StringBuffer data = new StringBuffer();
 		char st = '<';
 		char ed = '>';
 		char[] charAry = txt.toCharArray();
 		boolean check = false;
-
 		for (int i = 0; i < charAry.length; i++) {
 			char c = charAry[i];
+			
 			if (c == st) {
 				check = true;
 			} else if (c == ed) {
