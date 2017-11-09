@@ -15,30 +15,31 @@ import net.xuite.blog.ray00000test.library.comicsdk.Comic;
 import net.xuite.blog.ray00000test.library.comicsdk.Episode;
 import net.xuite.blog.ray00000test.library.comicsdk.R8Comic;
 import net.xuite.blog.ray00000test.library.comicsdk.R8Comic.OnLoadListener;
-import net.xuite.blog.ray00000test.library.util.StringUtility;
 
 public class R8ComicTest {
 
 	@Test
 	public void testGetAll() {
 		final CountDownLatch signal = new CountDownLatch(1);
+		final Reference<List<Comic>> result = new Reference<List<Comic>>();
+		
 
 		R8Comic.get().getAll(new OnLoadListener<List<Comic>>() {
 
 			@Override
-			public void onLoaded(List<Comic> result) {
-
+			public void onLoaded(List<Comic> comics) {
+				result.set(comics);
 				// for (Comic comic : result) {
 				// System.out.println(comic.getId() + "," + comic.getName());
 				// }
 
-				assertTrue(result.size() > 0);
 				signal.countDown();
 			}
 
 		});
 		try {
 			signal.await();
+			assertTrue(result.get().size() > 0);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -47,23 +48,24 @@ public class R8ComicTest {
 	@Test
 	public void testGetNewest() {
 		final CountDownLatch signal = new CountDownLatch(1);
+		final Reference<List<Comic>> result = new Reference<List<Comic>>();
 		
 		R8Comic.get().getNewest(new OnLoadListener<List<Comic>>() {
 
 			@Override
-			public void onLoaded(List<Comic> result) {
+			public void onLoaded(List<Comic> comics) {
+				result.set(comics);
 
-				 for (Comic comic : result) {
-					 System.out.println(comic.getId() + "," + comic.getName() + "," + comic.getNewestEpisode());
-				 }
-
-				assertTrue(result.size() > 0);
 				signal.countDown();
 			}
 
 		});
 		try {
 			signal.await();
+			assertTrue(result.get().size() > 0);
+			for (Comic comic : result.get()) {
+				 System.out.println(comic.getId() + "," + comic.getName() + "," + comic.getNewestEpisode());
+			 }
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -226,7 +228,7 @@ public class R8ComicTest {
 	@Test
 	public void testSearchComicHaveComicUsingBig5() {
 		final CountDownLatch signal = new CountDownLatch(1);
-		final String searchKeyword = "中";
+		final String searchKeyword = "食戟";
 		final Reference<List<Comic>> result = new Reference<List<Comic>>();
 		
 		
