@@ -203,19 +203,21 @@ public class R8ComicTest {
 
 	@Test
 	public void testQuickSearchComic() {
+		final Reference<List<String>> result = new Reference<List<String>>();
 		final CountDownLatch signal = new CountDownLatch(1);
 		R8Comic.get().quickSearchComic("中", new OnLoadListener<List<String>>(){
 
 			@Override
-			public void onLoaded(List<String> result) {
-				System.out.println(result);
-				assertTrue(result.size() > 0);
+			public void onLoaded(List<String> comicNameList) {
+				System.out.println(comicNameList);
+				result.set(comicNameList);
 				signal.countDown();
 			}
 			
 		});
 		try {
 			signal.await();
+			assertTrue(result.get().size() > 0);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -224,24 +226,27 @@ public class R8ComicTest {
 	@Test
 	public void testSearchComicHaveComicUsingBig5() {
 		final CountDownLatch signal = new CountDownLatch(1);
-		final String searchKeyword = "中";
+		final String searchKeyword = "食戟";
+		final Reference<List<Comic>> result = new Reference<List<Comic>>();
+		
 		
 		R8Comic.get().searchComic(searchKeyword, new OnLoadListener<List<Comic>>(){
 
 			@Override
-			public void onLoaded(List<Comic> result) {
+			public void onLoaded(List<Comic> comics) {
 				int index = 0;
-				System.out.println("搜尋\""+searchKeyword+"\"，筆數["+result.size()+"]");
-				for(Comic comic : result){
+				System.out.println("搜尋\""+searchKeyword+"\"，筆數["+comics.size()+"]");
+				for(Comic comic : comics){
 					System.out.println("index["+(++index)+"],id["+comic.getId()+"], name["+comic.getName()+"]");
 				}
-				assertTrue(result.size() > 0);
+				result.set(comics);
 				signal.countDown();
 			}
 			
 		});
 		try {
 			signal.await();
+			assertTrue(result.get().size() > 0);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

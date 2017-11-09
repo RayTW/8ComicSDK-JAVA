@@ -289,7 +289,7 @@ public class Parser {
 		String comicId = null;
 		String comicName = null;
 		String comidIdBegin = "<a href=\"/html/";
-		String comidIdEnd = ".html\"><img src=";
+		String comidIdEnd = ".html\">";
 		String comidNameBegin = "<b><font color=\"#0099CC\">";
 		String comidNameEnd = "</font></b>";
 		String pageBegin = "&page=";
@@ -303,7 +303,7 @@ public class Parser {
 			comicId = StringUtility.substring(text, comidIdBegin, comidIdEnd);
 
 			if (comicId != null) {
-				text = html[i + 1];
+				text = html[i + 9];
 				comicName = StringUtility.substring(text, comidNameBegin, comidNameEnd);
 				comicName = replaceTag(comicName);
 				comic = new Comic();
@@ -346,14 +346,17 @@ public class Parser {
 	 * @return
 	 */
 	public String replaceTag(String txt) {
+		if(txt == null){
+			return "";
+		}
 		StringBuffer data = new StringBuffer();
 		char st = '<';
 		char ed = '>';
 		char[] charAry = txt.toCharArray();
 		boolean check = false;
-
 		for (int i = 0; i < charAry.length; i++) {
 			char c = charAry[i];
+			
 			if (c == st) {
 				check = true;
 			} else if (c == ed) {
