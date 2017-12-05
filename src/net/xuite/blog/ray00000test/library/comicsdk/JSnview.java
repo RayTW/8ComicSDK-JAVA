@@ -91,7 +91,14 @@ public class JSnview {
 		str = str.replace("ge('TheImg').src", "var src");
 		String unuseScript = StringUtility.substring(str, "\'.jpg\';", "break;");
 		str = str.replace(unuseScript, "");
-		String varSrc = StringUtility.substring(str, "ci=i;", "break;");
+		String varSrc = null;
+		
+		if(str.indexOf("ci = i;") != -1){
+			varSrc = StringUtility.substring(str, "ci = i;", "break;");
+		}else if(str.indexOf("ci=i;") != -1){
+			varSrc = StringUtility.substring(str, "ci=i;", "break;");
+		}
+		
 		String getPageJS = String.format(buildGetPagesJS(), varSrc);
 		str = str.replace(varSrc, "");
 		str = str.replace("break;", getPageJS);
