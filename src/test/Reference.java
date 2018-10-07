@@ -6,11 +6,11 @@ public class Reference<T> {
 	public Reference() {
 	}
 
-	public void set(T obj){
+	public void set(T obj) {
 		mObject = obj;
 	}
-	
-	public T get(){
+
+	public T get() {
 		return mObject;
 	}
 }

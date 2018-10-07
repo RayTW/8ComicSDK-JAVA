@@ -40,6 +40,7 @@ public class R8Comic {
 	 **/
 	public void getAll(final OnLoadListener<List<Comic>> listener) {
 		mPool.submit(new Runnable() {
+			@Override
 			public void run() {
 				String htmlString = requestGetHttp(mConfig.getAllUrl());
 				List<Comic> result = mParser.allComics(htmlString, mConfig);
@@ -60,6 +61,7 @@ public class R8Comic {
 	public void getNewest(final OnLoadListener<List<Comic>> listener) {
 
 		mPool.submit(new Runnable() {
+			@Override
 			public void run() {
 				List<Comic> result = new ArrayList<Comic>();
 				String htmlString = null;
@@ -86,13 +88,12 @@ public class R8Comic {
 	 * @param listener
 	 *            讀取一款漫畫完成後將會回呼
 	 */
-	public void loadComicDetail(final Comic comic,
-			final OnLoadListener<Comic> listener) {
+	public void loadComicDetail(final Comic comic, final OnLoadListener<Comic> listener) {
 
 		mPool.submit(new Runnable() {
+			@Override
 			public void run() {
-				String htmlString = requestGetHttp(mConfig
-						.getComicDetailUrl(comic.getId()));
+				String htmlString = requestGetHttp(mConfig.getComicDetailUrl(comic.getId()));
 				Comic result = mParser.comicDetail(htmlString, comic);
 
 				if (listener != null) {
@@ -110,9 +111,9 @@ public class R8Comic {
 	 * @param listener
 	 *            讀取完成後將會回呼
 	 */
-	public void loadEpisodeDetail(final Episode episode,
-			final OnLoadListener<Episode> listener) {
+	public void loadEpisodeDetail(final Episode episode, final OnLoadListener<Episode> listener) {
 		mPool.submit(new Runnable() {
+			@Override
 			public void run() {
 				String htmlString = requestGetHttp(episode.getUrl());
 				Episode result = mParser.episodeDetail(htmlString, episode);
@@ -131,10 +132,10 @@ public class R8Comic {
 	 * @param listener
 	 *            讀取完成後將會回呼
 	 **/
-	public void loadSiteUrlList(
-			final OnLoadListener<Map<String, String>> listener) {
+	public void loadSiteUrlList(final OnLoadListener<Map<String, String>> listener) {
 
 		mPool.submit(new Runnable() {
+			@Override
 			public void run() {
 				String htmlString = requestGetHttp(mConfig.getCviewJSUrl());
 				Map<String, String> result = mParser.cviewJS(htmlString);
@@ -153,18 +154,32 @@ public class R8Comic {
 	 *            搜尋漫畫的關鍵字，比如"海賊王"
 	 * @param listener
 	 */
-	public void searchComic(final String keyword,
-			final OnLoadListener<List<Comic>> listener) {
+	public void searchComic(final String keyword, final OnLoadListener<List<Comic>> listener) {
 
 		mPool.submit(new Runnable() {
+			@Override
 			public void run() {
 				final List<Comic> result = new ArrayList<Comic>();
 
 				// 先搜尋一次
-				String htmlString = requestGetHttp(mConfig.getSearchUrl(
-						keyword, 1));
-				int maxPage = mParser.searchComic(htmlString,
-						new OnLoadListener<List<Comic>>() {
+				String htmlString = requestGetHttp(mConfig.getSearchUrl(keyword, 1));
+				int maxPage = mParser.searchComic(htmlString, new OnLoadListener<List<Comic>>() {
+
+					@Override
+					public void onLoaded(List<Comic> comics) {
+						if (comics.isEmpty()) {
+							return;
+						}
+						result.addAll(comics);
+					}
+
+				});
+
+				// 若搜尋後，總頁數還有結果筆數，則將進行逐頁讀取
+				if (maxPage > 1) {
+					for (int i = 2; i < maxPage; i++) {
+						htmlString = requestGetHttp(mConfig.getSearchUrl(keyword, i));
+						mParser.searchComic(htmlString, new OnLoadListener<List<Comic>>() {
 
 							@Override
 							public void onLoaded(List<Comic> comics) {
@@ -175,24 +190,6 @@ public class R8Comic {
 							}
 
 						});
-
-				// 若搜尋後，總頁數還有結果筆數，則將進行逐頁讀取
-				if (maxPage > 1) {
-					for (int i = 2; i < maxPage; i++) {
-						htmlString = requestGetHttp(mConfig.getSearchUrl(
-								keyword, i));
-						mParser.searchComic(htmlString,
-								new OnLoadListener<List<Comic>>() {
-
-									@Override
-									public void onLoaded(List<Comic> comics) {
-										if (comics.isEmpty()) {
-											return;
-										}
-										result.addAll(comics);
-									}
-
-								});
 					}
 				}
 
@@ -211,13 +208,12 @@ public class R8Comic {
 	 *            搜尋漫畫的關鍵字，比如"海賊王"
 	 * @param listener
 	 **/
-	public void quickSearchComic(final String keyword,
-			final OnLoadListener<List<String>> listener) {
+	public void quickSearchComic(final String keyword, final OnLoadListener<List<String>> listener) {
 
 		mPool.submit(new Runnable() {
+			@Override
 			public void run() {
-				String htmlString = requestGetHttp(mConfig
-						.getQuickSearchUrl(keyword));
+				String htmlString = requestGetHttp(mConfig.getQuickSearchUrl(keyword));
 				List<String> result = mParser.quickSearchComic(htmlString);
 
 				if (listener != null) {
@@ -239,23 +235,16 @@ public class R8Comic {
 		public abstract void onLoaded(T result);
 	}
 
-	//預設讀取html回來後，用big5解析
+	// 預設讀取html回來後，用big5解析
 	private String requestGetHttp(String url) {
 		String result = null;
-		EasyHttp request = new EasyHttp.Builder()
-		.setUrl(url)
-		.setMethod("GET")
-		.setIsRedirect(true)
-		.setWriteCharset("BIG5")
-		.setReadCharset("BIG5")
-		.setReferer(mConfig.getComicHost())
-		.putHeader(
-				"Accept",
-				"*/*")
+		EasyHttp request = new EasyHttp.Builder().setUrl(url).setMethod("GET").setIsRedirect(true)
+				.setWriteCharset("BIG5").setReadCharset("BIG5").setHost(mConfig.getComicHost())
+				.setReferer(mConfig.getComicHostUrl()).putHeader("Accept", "*/*")
 				.putHeader("Accept-Encoding", "gzip, deflate, br")
 				.setUserAgent(
 						"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36")
-						.build();
+				.build();
 
 		try {
 			Response response = request.connect();
@@ -268,6 +257,7 @@ public class R8Comic {
 	}
 
 	class R8ComicThreadFactory implements ThreadFactory {
+		@Override
 		public Thread newThread(Runnable r) {
 			Thread t = new Thread(r);
 			t.setName("R8ComicThread-" + t.hashCode());

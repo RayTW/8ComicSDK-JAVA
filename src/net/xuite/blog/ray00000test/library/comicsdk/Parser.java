@@ -39,20 +39,15 @@ public class Parser {
 			if (comicIdBeginIndex == NOT_FOUND || comicIdEndIndex == NOT_FOUND) {
 				break;
 			}
-			comicId = html
-					.substring(comicIdBeginIndex + commicIdBegin.length(),
-							comicIdEndIndex);
+			comicId = html.substring(comicIdBeginIndex + commicIdBegin.length(), comicIdEndIndex);
 			html = html.substring(comicIdEndIndex + commicIdEnd.length());
 			comicNameBeginIndex = html.indexOf(commicNameBegin);
 			comicNameEndIndex = html.indexOf(commicNameEnd);
 
-			if (comicNameBeginIndex == NOT_FOUND
-					|| comicNameEndIndex == NOT_FOUND) {
+			if (comicNameBeginIndex == NOT_FOUND || comicNameEndIndex == NOT_FOUND) {
 				break;
 			}
-			comicName = html.substring(
-					comicNameBeginIndex + commicNameBegin.length(),
-					comicNameEndIndex);
+			comicName = html.substring(comicNameBeginIndex + commicNameBegin.length(), comicNameEndIndex);
 			Comic comic = new Comic();
 			comic.setId(comicId);
 			comic.setName(comicName);
@@ -63,7 +58,7 @@ public class Parser {
 
 		return comicAry;
 	}
-	
+
 	/**
 	 * 解析單筆最新漫畫資訊
 	 * 
@@ -78,11 +73,10 @@ public class Parser {
 		String actTagEnd = "</num>";
 		String[] htmlList = htmlString.split(System.lineSeparator());
 		String html = null;
-		
-		nextComic:
-		for(int i = 0; i < htmlList.length; i++){
+
+		nextComic: for (int i = 0; i < htmlList.length; i++) {
 			html = htmlList[i];
-			if(html.indexOf(findTagStart) != NOT_FOUND){
+			if (html.indexOf(findTagStart) != NOT_FOUND) {
 				int start = html.indexOf(findTagStart);
 
 				if (start != NOT_FOUND) {
@@ -93,16 +87,16 @@ public class Parser {
 					String comicName = StringUtility.substring(html, nameTagStart, nameTagEnd);
 					// 解析最新集數
 					String act = null;
-					
-					for(int j = i + 1; j < htmlList.length; j++){
-						 act = StringUtility.substring(htmlList[j], actTagStart, actTagEnd);
-						 if(act != null){
-							 break;
-						 }
+
+					for (int j = i + 1; j < htmlList.length; j++) {
+						act = StringUtility.substring(htmlList[j], actTagStart, actTagEnd);
+						if (act != null) {
+							break;
+						}
 					}
-					
-					for(Comic c : comicAry){
-						if(c.getId().equals(comicId)){
+
+					for (Comic c : comicAry) {
+						if (c.getId().equals(comicId)) {
 							continue nextComic;
 						}
 					}
@@ -115,7 +109,7 @@ public class Parser {
 					comicAry.add(comic);
 				}
 			}
-			
+
 		}
 		return comicAry;
 	}
@@ -149,25 +143,23 @@ public class Parser {
 
 		for (int i = 0; i < html.length; i++) {
 			txt = html[i];
-			if(!isFinishEpisode) {
-                isFinishEpisode = txt.indexOf(mFinishTag) != NOT_FOUND;
-            }
-			
+			if (!isFinishEpisode) {
+				isFinishEpisode = txt.indexOf(mFinishTag) != NOT_FOUND;
+			}
+
 			findCviewUpper = txt.indexOf(findCview);
 
 			if (findCviewUpper != NOT_FOUND) {
-				if(isFinishEpisode){
+				if (isFinishEpisode) {
 					continue;
 				}
-				
+
 				nameTagLower = txt.indexOf(nameTag);
-				data = txt.substring(findCviewUpper + findCview.length(),
-						nameTagLower);
+				data = txt.substring(findCviewUpper + findCview.length(), nameTagLower);
 				data = data.replaceAll("'", "");
 				dataAry = data.split("[,]");
 				ch = dataAry[0].split("[-]")[1].replaceFirst(".html", "");
-				url = dataAry[0].replaceFirst(".html", "").replaceFirst("-",
-						".html?ch=");
+				url = dataAry[0].replaceFirst(".html", "").replaceFirst("-", ".html?ch=");
 				catid = dataAry[1];
 				copyright = dataAry[2];
 
@@ -192,8 +184,7 @@ public class Parser {
 			} else {
 				// 解析漫畫簡介
 				if (comic.getDescription() == null) {
-					String detail = StringUtility.substring(txt, findDeaitlTag,
-							"</td>");
+					String detail = StringUtility.substring(txt, findDeaitlTag, "</td>");
 
 					if (detail != null) {
 						comic.setDescription(detail);
@@ -219,6 +210,7 @@ public class Parser {
 
 	/**
 	 * 解析漫畫圖片存放的伺服器host列表
+	 * 
 	 * @param htmlString
 	 * @return
 	 */
@@ -238,14 +230,11 @@ public class Parser {
 			if (txt.length() > 0) {
 				if (txt.indexOf(startTag) != -1) {
 					txt = txt.replaceAll("[)]", "");
-					String[] numCodeAry = txt.substring(startTag.length(),
-							txt.indexOf(endTab)).split("[|][|]");
-					String cviewUrl = txt.substring(
-							txt.indexOf(urlStratTag) + urlStratTag.length(),
-							txt.indexOf(urlEndTag)).trim();
+					String[] numCodeAry = txt.substring(startTag.length(), txt.indexOf(endTab)).split("[|][|]");
+					String cviewUrl = txt
+							.substring(txt.indexOf(urlStratTag) + urlStratTag.length(), txt.indexOf(urlEndTag)).trim();
 					for (int j = 0; j < numCodeAry.length; j++) {
-						String numCode = (numCodeAry[j].trim()).split("[=][=]")[1]
-								.trim();
+						String numCode = (numCodeAry[j].trim()).split("[=][=]")[1].trim();
 						cviewMap.put(numCode, cviewUrl);
 					}
 				}
@@ -282,7 +271,7 @@ public class Parser {
 		}
 		return episode;
 	}
-	
+
 	/**
 	 * 搜尋漫畫，回傳此次搜尋結果的總頁數
 	 * 
@@ -314,14 +303,14 @@ public class Parser {
 				text = html[i + 9];
 				comicName = StringUtility.substring(text, comidNameBegin, comidNameEnd);
 				comicName = replaceTag(comicName);
-				
-				//再找漫畫id
-				for(int j = i + 1; j < html.length; j++){
+
+				// 再找漫畫id
+				for (int j = i + 1; j < html.length; j++) {
 					text = html[j];
 					comicId = StringUtility.substring(text, comidIdBegin, comidIdEnd);
-					
-					if(comicId != null){
-						//從找到漫畫id的下一行找尋下一本漫畫名稱
+
+					if (comicId != null) {
+						// 從找到漫畫id的下一行找尋下一本漫畫名稱
 						i = j + 1;
 						break;
 					}
@@ -337,7 +326,7 @@ public class Parser {
 				comicName = null;
 				if (text.indexOf(pageBegin) != NOT_FOUND) {
 					String p = StringUtility.lastSubstring(text, pageBegin, pageEnd);
-					
+
 					try {
 						maxPage = Integer.parseInt(p);
 					} catch (Exception e) {
@@ -354,9 +343,9 @@ public class Parser {
 
 		return maxPage;
 	}
-	
-	public List<String> quickSearchComic(String htmlString){
-		String [] list = htmlString.split("[|]");
+
+	public List<String> quickSearchComic(String htmlString) {
+		String[] list = htmlString.split("[|]");
 		return Arrays.asList(list);
 	}
 
@@ -367,7 +356,7 @@ public class Parser {
 	 * @return
 	 */
 	public String replaceTag(String txt) {
-		if(txt == null){
+		if (txt == null) {
 			return "";
 		}
 		StringBuffer data = new StringBuffer();
@@ -377,7 +366,7 @@ public class Parser {
 		boolean check = false;
 		for (int i = 0; i < charAry.length; i++) {
 			char c = charAry[i];
-			
+
 			if (c == st) {
 				check = true;
 			} else if (c == ed) {

@@ -92,29 +92,29 @@ public class JSnview {
 		String unuseScript = StringUtility.substring(str, "\'.jpg\';", "break;");
 		str = str.replace(unuseScript, "");
 		String varSrc = null;
-		
-		if(str.indexOf("ci = i;") != -1){
+
+		if (str.indexOf("ci = i;") != -1) {
 			varSrc = StringUtility.substring(str, "ci = i;", "break;");
-		}else if(str.indexOf("ci=i;") != -1){
+		} else if (str.indexOf("ci=i;") != -1) {
 			varSrc = StringUtility.substring(str, "ci=i;", "break;");
 		}
-		
+
 		String getPageJS = String.format(buildGetPagesJS(), varSrc);
 		str = str.replace(varSrc, "");
 		str = str.replace("break;", getPageJS);
 		String script = "function sp2(ch, y){" + str + "} " + buildNviewJS();
 		ScriptEngineManager manager = new ScriptEngineManager();
 		ScriptEngine engine = manager.getEngineByName("JavaScript");
-		
+
 		try {
-			Bindings bind = engine.createBindings(); 
-	        bind.put("pagsList", pagsList); 
-	        engine.setBindings(bind, ScriptContext.ENGINE_SCOPE); 
-			
+			Bindings bind = engine.createBindings();
+			bind.put("pagsList", pagsList);
+			engine.setBindings(bind, ScriptContext.ENGINE_SCOPE);
+
 			engine.eval(script);
 			Invocable inv = (Invocable) engine;
 			inv.invokeFunction("sp2", ch, y);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -147,7 +147,7 @@ public class JSnview {
 		StringBuilder buf = new StringBuilder();
 		buf.append("for(var p = 1; p <= ps; p++){");
 		buf.append("%s");
-		buf.append("pagsList.add(src)");//將漫畫下載網址放到java的ArrayList
+		buf.append("pagsList.add(src)");// 將漫畫下載網址放到java的ArrayList
 		buf.append("}");
 		buf.append("return;");
 		return buf.toString();

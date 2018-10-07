@@ -30,8 +30,8 @@ public class EasyHttp {
 
 	private String mUrl;
 	private String mMethod;
-	private String mWriteCharset = "UTF-8";//default
-	private String mReadCharset = "UTF-8";//default
+	private String mWriteCharset = "UTF-8";// default
+	private String mReadCharset = "UTF-8";// default
 	private Boolean mIsRedirect;
 	private Long mReadTimeout;
 	private Long mConnectTimeout;
@@ -82,8 +82,7 @@ public class EasyHttp {
 		}
 
 		if (!isGet && queryString != null && !queryString.isEmpty()) {
-			BufferedOutputStream dos = new BufferedOutputStream(
-					new DataOutputStream(connection.getOutputStream()));
+			BufferedOutputStream dos = new BufferedOutputStream(new DataOutputStream(connection.getOutputStream()));
 			dos.write(queryString.getBytes(mWriteCharset));
 			dos.flush();
 			dos.close();
@@ -102,8 +101,7 @@ public class EasyHttp {
 	}
 
 	private void setUpRequestProperty(URLConnection connection) {
-		Iterator<Map.Entry<String, String>> iter = mRequestHeader.entrySet()
-				.iterator();
+		Iterator<Map.Entry<String, String>> iter = mRequestHeader.entrySet().iterator();
 		Map.Entry<String, String> entry = null;
 
 		while (iter.hasNext()) {
@@ -112,19 +110,18 @@ public class EasyHttp {
 		}
 	}
 
-	private Response createResponse(HttpURLConnection connection,
-			boolean newline) throws IOException {
+	private Response createResponse(HttpURLConnection connection, boolean newline) throws IOException {
 		int code = connection.getResponseCode();
 		InputStream inputStream = null;
 		String body = null;
 		String contentType = connection.getHeaderField("content-type");
 		String useCharset = getCharsetFromContentType(contentType);
-		
-		//取reponse取得的chsetat為null時，採用預設的charset
-		if(useCharset == null){
+
+		// 取reponse取得的chsetat為null時，採用預設的charset
+		if (useCharset == null) {
 			useCharset = mReadCharset;
 		}
-		
+
 		try {
 			inputStream = getInputStream(connection);
 			body = readString(inputStream, useCharset, newline);
@@ -137,11 +134,9 @@ public class EasyHttp {
 		return new Response(code, body, connection.getHeaderFields());
 	}
 
-	private String readString(InputStream inputStream, String charset,
-			boolean newline) throws IOException {
+	private String readString(InputStream inputStream, String charset, boolean newline) throws IOException {
 		StringBuffer buffer = new StringBuffer();
-		BufferedReader reader = new BufferedReader(new InputStreamReader(
-				inputStream, charset), mBufferReaderKB * 1024);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, charset), mBufferReaderKB * 1024);
 		String str = null;
 
 		while ((str = reader.readLine()) != null) {
@@ -154,8 +149,7 @@ public class EasyHttp {
 		return buffer.toString();
 	}
 
-	private InputStream getInputStream(HttpURLConnection connection)
-			throws IOException {
+	private InputStream getInputStream(HttpURLConnection connection) throws IOException {
 		if ("gzip".equalsIgnoreCase(connection.getContentEncoding())) {
 			return new GZIPInputStream(connection.getInputStream());
 		}
@@ -166,8 +160,7 @@ public class EasyHttp {
 		return connection.getInputStream();
 	}
 
-	private InputStream getErrorStream(HttpURLConnection connection)
-			throws IOException {
+	private InputStream getErrorStream(HttpURLConnection connection) throws IOException {
 		if ("gzip".equalsIgnoreCase(connection.getContentEncoding())) {
 			return new GZIPInputStream(connection.getErrorStream());
 		}
@@ -177,18 +170,18 @@ public class EasyHttp {
 		}
 		return connection.getErrorStream();
 	}
-	
-	  private String getCharsetFromContentType(String contentType) {
-	    if (contentType == null){
-	    	return null;
-	    }
 
-	    Matcher m = sCharsetPattern.matcher(contentType);
-	    if (m.find()) {
-	      return m.group(1).trim().toUpperCase();
-	    }
-	    return null;
-	  }
+	private String getCharsetFromContentType(String contentType) {
+		if (contentType == null) {
+			return null;
+		}
+
+		Matcher m = sCharsetPattern.matcher(contentType);
+		if (m.find()) {
+			return m.group(1).trim().toUpperCase();
+		}
+		return null;
+	}
 
 	public static class Builder {
 		private String mUrl;
@@ -220,6 +213,11 @@ public class EasyHttp {
 			return this;
 		}
 
+		public Builder setHost(String host) {
+			putHeader("Host", host);
+			return this;
+		}
+
 		public Builder setReferer(String referer) {
 			putHeader("Referer", referer);
 			return this;
@@ -229,7 +227,7 @@ public class EasyHttp {
 			mWriteCharset = charset;
 			return this;
 		}
-		
+
 		public Builder setReadCharset(String charset) {
 			mReadCharset = charset;
 			return this;
@@ -269,12 +267,12 @@ public class EasyHttp {
 			EasyHttp obj = new EasyHttp();
 			obj.mUrl = mUrl;
 			obj.mMethod = mMethod;
-			
-			if(mWriteCharset != null){
+
+			if (mWriteCharset != null) {
 				obj.mWriteCharset = mWriteCharset;
 			}
-			
-			if(mReadCharset != null){
+
+			if (mReadCharset != null) {
 				obj.mReadCharset = mReadCharset;
 			}
 

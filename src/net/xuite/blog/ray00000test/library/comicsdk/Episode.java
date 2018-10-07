@@ -1,7 +1,6 @@
 package net.xuite.blog.ray00000test.library.comicsdk;
 
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 
@@ -17,10 +16,10 @@ public class Episode {
 	private List<String> mImageUrl;
 	private JSnview mJSnview = new JSnview();
 
-	public void setSourceHtml(String html){
+	public void setSourceHtml(String html) {
 		mJSnview.setSource(html);
 	}
-	
+
 	/**
 	 * 讀取1話(集、卷)全部漫畫圖片網址
 	 */
@@ -52,6 +51,7 @@ public class Episode {
 
 	/**
 	 * 對應漫畫圖片存放的伺服器host網址
+	 * 
 	 * @return
 	 */
 	public String getCatid() {
@@ -69,7 +69,7 @@ public class Episode {
 	public void setCopyright(String copyright) {
 		mCopyright = copyright;
 	}
-	
+
 	public void setCh(int ch) {
 		mJSnview.setCh(ch);
 	}
@@ -81,44 +81,42 @@ public class Episode {
 	public void setTi(int ti) {
 		mJSnview.setTi(ti);
 	}
-	
+
 	public void setCs(String cs) {
 		mJSnview.setCs(cs);
 	}
-	
+
 	/**
 	 * 取得全部漫畫圖片
+	 * 
 	 * @return
 	 */
 	public List<String> getImageUrlList() {
 		return mImageUrl;
 	}
-	
+
 	/**
 	 * 漫畫總頁數
+	 * 
 	 * @return
 	 */
 	public int getPages() {
-		if(mImageUrl == null){
+		if (mImageUrl == null) {
 			return 0;
 		}
 		return mImageUrl.size();
 	}
-	
-	public String toString(){
+
+	@Override
+	public String toString() {
 		StringBuilder buf = new StringBuilder();
-		
-		buf.append("mName=["+mName+"]")
-		.append("mUrl=["+mUrl+"]")
-		.append("mCatid=["+mCatid+"]")
-		.append("mCopyright=["+mCopyright+"]")
-		.append("mCh=["+mJSnview.getCh()+"]")
-		.append("mChs=["+mJSnview.getChs()+"]")
-		.append("mTi=["+mJSnview.getTi()+"]")
-		.append("mPs=["+getPages()+"]")
-		.append("mCs=["+mJSnview.getCs()+"]")
-		.append("mC=["+mJSnview.getC()+"]");
-		
+
+		buf.append("mName=[" + mName + "]").append("mUrl=[" + mUrl + "]").append("mCatid=[" + mCatid + "]")
+				.append("mCopyright=[" + mCopyright + "]").append("mCh=[" + mJSnview.getCh() + "]")
+				.append("mChs=[" + mJSnview.getChs() + "]").append("mTi=[" + mJSnview.getTi() + "]")
+				.append("mPs=[" + getPages() + "]").append("mCs=[" + mJSnview.getCs() + "]")
+				.append("mC=[" + mJSnview.getC() + "]");
+
 		return buf.toString();
 	}
 }

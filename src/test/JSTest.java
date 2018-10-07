@@ -52,14 +52,14 @@ public class JSTest {
 		ScriptEngine engine = manager.getEngineByName("JavaScript");
 
 		try {
-			Bindings bind = engine.createBindings(); 
-	        bind.put("pagsList", pagsList); 
-	        engine.setBindings(bind, ScriptContext.ENGINE_SCOPE); 
-			
+			Bindings bind = engine.createBindings();
+			bind.put("pagsList", pagsList);
+			engine.setBindings(bind, ScriptContext.ENGINE_SCOPE);
+
 			engine.eval(script);
 			Invocable inv = (Invocable) engine;
 			inv.invokeFunction("sp2", ch, y);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -89,10 +89,10 @@ public class JSTest {
 
 	public static String buildGetPagesJS() {
 		StringBuilder buf = new StringBuilder();
-//		buf.append("var result = [];");
+		// buf.append("var result = [];");
 		buf.append("for(var p = 1; p < ps; p++){");
 		buf.append("%s");
-//		buf.append("result.push(src);");
+		// buf.append("result.push(src);");
 		buf.append("pagsList.add(src)");
 		buf.append("}");
 		buf.append("return;");
