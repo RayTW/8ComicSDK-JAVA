@@ -2,11 +2,10 @@ package raytw.sdk.comic.comicsdk;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import raytw.sdk.comic.comicsdk.R8Comic.OnLoadListener;
+import raytw.sdk.comic.net.EasyHttp.Response;
 import raytw.sdk.comic.util.StringUtility;
 
 /**
@@ -214,33 +213,8 @@ public class Parser {
 	 * @param htmlString
 	 * @return
 	 */
-	public Map<String, String> cviewJS(String htmlString) {
-		Map<String, String> cviewMap = new HashMap<String, String>();
-
-		String[] dataAry = htmlString.split(System.lineSeparator());
-
-		String startTag = "if(catid";
-		String endTab = "baseurl=\"";
-		String urlStratTag = endTab;
-		String urlEndTag = "\";";
-
-		for (int i = 0; i < dataAry.length; i++) {
-			String txt = dataAry[i];
-
-			if (txt.length() > 0) {
-				if (txt.indexOf(startTag) != -1) {
-					txt = txt.replaceAll("[)]", "");
-					String[] numCodeAry = txt.substring(startTag.length(), txt.indexOf(endTab)).split("[|][|]");
-					String cviewUrl = txt
-							.substring(txt.indexOf(urlStratTag) + urlStratTag.length(), txt.indexOf(urlEndTag)).trim();
-					for (int j = 0; j < numCodeAry.length; j++) {
-						String numCode = (numCodeAry[j].trim()).split("[=][=]")[1].trim();
-						cviewMap.put(numCode, cviewUrl);
-					}
-				}
-			}
-		}
-		return cviewMap;
+	public String cviewJS(Response response) {
+		return "https://comicbus.live/online/a-";
 	}
 
 	public Episode episodeDetail(String htmlString, Episode episode) {

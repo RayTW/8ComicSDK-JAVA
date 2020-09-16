@@ -101,10 +101,10 @@ public class R8ComicTest {
 	@Test
 	public void testLoadEpisodeDetail() {
 		final CountDownLatch signal = new CountDownLatch(1);
-		R8Comic.get().loadSiteUrlList(new OnLoadListener<Map<String, String>>() {
+		R8Comic.get().loadSiteUrlList(new OnLoadListener<String>() {
 
 			@Override
-			public void onLoaded(final Map<String, String> hostList) {
+			public void onLoaded(final String hostList) {
 				Comic comic = new Comic();
 				comic.setId("103");
 				comic.setName("海賊王");
@@ -123,7 +123,7 @@ public class R8ComicTest {
 						if (result.getEpisodes().size() > 0) {
 							Episode episode = result.getEpisodes().get(0);
 							System.out.println("episode==" + episode);
-							String downloadHost = hostList.get(episode.getCatid());
+							String downloadHost = hostList + episode.getUrl();
 							System.out.println("downloadHost[" + downloadHost + "]");
 
 							episode.setUrl(downloadHost + episode.getUrl());
@@ -158,12 +158,12 @@ public class R8ComicTest {
 	@Test
 	public void testLoadSiteUrlList() {
 		final CountDownLatch signal = new CountDownLatch(1);
-		R8Comic.get().loadSiteUrlList(new OnLoadListener<Map<String, String>>() {
+		R8Comic.get().loadSiteUrlList(new OnLoadListener<String>() {
 
 			@Override
-			public void onLoaded(Map<String, String> result) {
+			public void onLoaded(String result) {
 				System.out.println(result);
-				assertTrue(result.size() > 0);
+				assertNotNull(result);
 				signal.countDown();
 			}
 
