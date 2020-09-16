@@ -1,4 +1,4 @@
-package net.xuite.blog.ray00000test.library.comicsdk;
+package raytw.sdk.comic.comicsdk;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,8 +8,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
-import net.xuite.blog.ray00000test.library.net.EasyHttp;
-import net.xuite.blog.ray00000test.library.net.EasyHttp.Response;
+import raytw.sdk.comic.net.EasyHttp;
+import raytw.sdk.comic.net.EasyHttp.Response;
 
 /**
  * 

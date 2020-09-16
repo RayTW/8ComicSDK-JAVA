@@ -1,4 +1,4 @@
-package net.xuite.blog.ray00000test.library.comicsdk;
+package raytw.sdk.comic.comicsdk;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.xuite.blog.ray00000test.library.comicsdk.R8Comic.OnLoadListener;
-import net.xuite.blog.ray00000test.library.util.StringUtility;
+import raytw.sdk.comic.comicsdk.R8Comic.OnLoadListener;
+import raytw.sdk.comic.util.StringUtility;
 
 /**
  * 解析從漫畫網站讀取到的html格式字串內容，將內容轉換成Comic、Episode物件

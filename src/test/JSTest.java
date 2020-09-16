@@ -9,7 +9,7 @@ import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
-import net.xuite.blog.ray00000test.library.util.StringUtility;
+import raytw.sdk.comic.util.StringUtility;
 
 public class JSTest {
 

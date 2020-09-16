@@ -1,9 +1,10 @@
 package test;
 
 import static org.junit.Assert.*;
-import net.xuite.blog.ray00000test.library.util.StringUtility;
 
 import org.junit.Test;
+
+import raytw.sdk.comic.util.StringUtility;
 
 public class StringUtilityTest {
 

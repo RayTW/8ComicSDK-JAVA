@@ -2,8 +2,8 @@ package test;
 
 import java.io.IOException;
 
-import net.xuite.blog.ray00000test.library.net.EasyHttp;
-import net.xuite.blog.ray00000test.library.net.EasyHttp.Response;
+import raytw.sdk.comic.net.EasyHttp;
+import raytw.sdk.comic.net.EasyHttp.Response;
 
 public class EasyHttpTest {
 

@@ -1,8 +1,8 @@
-package net.xuite.blog.ray00000test.library.comicsdk;
+package raytw.sdk.comic.comicsdk;
 
 import java.util.Random;
 
-import net.xuite.blog.ray00000test.library.util.StringUtility;
+import raytw.sdk.comic.util.StringUtility;
 
 /**
  * 

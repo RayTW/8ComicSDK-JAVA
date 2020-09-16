@@ -1,4 +1,4 @@
-package net.xuite.blog.ray00000test.library.comicsdk;
+package raytw.sdk.comic.comicsdk;
 
 import java.util.List;
 

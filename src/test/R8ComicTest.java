@@ -10,10 +10,10 @@ import java.util.concurrent.CountDownLatch;
 
 import org.junit.Test;
 
-import net.xuite.blog.ray00000test.library.comicsdk.Comic;
-import net.xuite.blog.ray00000test.library.comicsdk.Episode;
-import net.xuite.blog.ray00000test.library.comicsdk.R8Comic;
-import net.xuite.blog.ray00000test.library.comicsdk.R8Comic.OnLoadListener;
+import raytw.sdk.comic.comicsdk.Comic;
+import raytw.sdk.comic.comicsdk.Episode;
+import raytw.sdk.comic.comicsdk.R8Comic;
+import raytw.sdk.comic.comicsdk.R8Comic.OnLoadListener;
 
 public class R8ComicTest {
 

@@ -1,4 +1,4 @@
-package net.xuite.blog.ray00000test.library.util;
+package raytw.sdk.comic.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

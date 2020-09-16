@@ -1,4 +1,4 @@
-package net.xuite.blog.ray00000test.library.net;
+package raytw.sdk.comic.net;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;

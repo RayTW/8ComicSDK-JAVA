@@ -1,4 +1,4 @@
-package net.xuite.blog.ray00000test.library.comicsdk;
+package raytw.sdk.comic.comicsdk;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
-import net.xuite.blog.ray00000test.library.util.StringUtility;
+import raytw.sdk.comic.util.StringUtility;
 
 /**
  * nview.js
