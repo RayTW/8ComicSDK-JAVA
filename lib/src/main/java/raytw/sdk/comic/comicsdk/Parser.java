@@ -21,6 +21,7 @@ public class Parser {
    *
    * @param htmlString 全部漫畫html
    * @param config 設定檔
+   * @return 全部漫畫
    */
   public List<Comic> allComics(String htmlString, Config config) {
     String html = htmlString;
@@ -63,7 +64,13 @@ public class Parser {
     return comicAry;
   }
 
-  /** 解析單筆最新漫畫資訊. */
+  /**
+   * 解析單筆最新漫畫資訊.
+   *
+   * @param comicAry 漫畫列表
+   * @param htmlString html
+   * @return 漫畫列表
+   */
   public List<Comic> newestComics(List<Comic> comicAry, String htmlString) {
     String findTagStart = "<a href=\"/html/";
     String findTagEnd = ".html";
@@ -121,6 +128,7 @@ public class Parser {
    *
    * @param htmlString html
    * @param comic 漫畫
+   * @return 漫畫
    */
   public Comic comicDetail(String htmlString, Comic comic) {
     int nameTagLower = NOT_FOUND;
@@ -213,6 +221,7 @@ public class Parser {
    * 解析漫畫圖片存放的伺服器host列表.
    *
    * @param response request的response
+   * @return 網址
    */
   public String cviewJs(Response response) {
     return "https://comicbus.live/online/a-";
@@ -223,6 +232,7 @@ public class Parser {
    *
    * @param htmlString html
    * @param episode 集數物件
+   * @return 集數
    */
   public Episode episodeDetail(String htmlString, Episode episode) {
     String[] html = htmlString.split(System.lineSeparator());
@@ -330,9 +340,10 @@ public class Parser {
   }
 
   /**
-   * 去掉"<"開頭與">"結尾的字串.
+   * 去掉"&lt;"開頭與"\&gt;"結尾的字串.
    *
    * @param txt 原始字串
+   * @return 處理過字串
    */
   public String replaceTag(String txt) {
     if (txt == null) {
@@ -367,6 +378,7 @@ public class Parser {
    * 去除java scripts語法tag(包含tag裡面的程式).
    *
    * @param string 字串
+   * @return 處理過字串
    */
   public String removeScriptsTag(String string) {
     String ret = string;

@@ -46,7 +46,11 @@ public class Episode {
     this.url = url;
   }
 
-  /** 對應漫畫圖片存放的伺服器host網址. */
+  /**
+   * 對應漫畫圖片存放的伺服器host網址.
+   *
+   * @return host
+   */
   public String getCatid() {
     return catid;
   }
@@ -55,6 +59,11 @@ public class Episode {
     this.catid = catid;
   }
 
+  /**
+   * 版權.
+   *
+   * @return 版權聲名
+   */
   public String getCopyright() {
     return copyright;
   }
@@ -79,12 +88,20 @@ public class Episode {
     jsnview.setCs(cs);
   }
 
-  /** 取得全部漫畫圖片. */
+  /**
+   * 取得全部漫畫圖片.
+   *
+   * @return 圖片列表
+   */
   public List<String> getImageUrlList() {
     return imageUrl;
   }
 
-  /** 漫畫總頁數. */
+  /**
+   * 漫畫總頁數.
+   *
+   * @return 頁數
+   */
   public int getPages() {
     if (imageUrl == null) {
       return 0;

@@ -74,7 +74,11 @@ public class Jsnview {
     return cc;
   }
 
-  /** 解析漫畫圖片下載網址. */
+  /**
+   * 解析漫畫圖片下載網址.
+   *
+   * @return 下戴網址
+   */
   public List<String> setupPagesDownloadUrl() {
     return invokeJs(source, Y, ch);
   }

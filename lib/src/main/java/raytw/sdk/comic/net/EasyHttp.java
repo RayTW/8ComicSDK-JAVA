@@ -40,7 +40,12 @@ public class EasyHttp {
   private Map<String, String> requestHeader;
   private URLConnection urlConnection;
 
-  /** 連線. */
+  /**
+   * 連線.
+   *
+   * @return 連線結果
+   * @throws IOException 連線失敗
+   */
   public Response connect() throws IOException {
     boolean isGet = false;
     String queryString = null;
@@ -274,7 +279,11 @@ public class EasyHttp {
       return this;
     }
 
-    /** 創建EasyHttp. */
+    /**
+     * 創建EasyHttp.
+     *
+     * @return EasyHttp
+     */
     public EasyHttp build() {
       EasyHttp obj = new EasyHttp();
       obj.url = url;

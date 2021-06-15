@@ -18,6 +18,7 @@ public class StringUtility {
    * @param source 原始字串
    * @param upperStringFoot 後字串
    * @param lowerStringHead 前字串
+   * @return 回傳處理過字串
    */
   public static String substring(String source, String upperStringFoot, String lowerStringHead) {
 
@@ -36,6 +37,7 @@ public class StringUtility {
    * @param source 原始字串
    * @param upperStringFoot 後字串
    * @param lowerStringHead 前字串
+   * @return 回傳處理過字串
    */
   public static String lastSubstring(
       String source, String upperStringFoot, String lowerStringHead) {
@@ -53,6 +55,7 @@ public class StringUtility {
    * url encode.
    *
    * @param source 原始字串
+   * @return 回傳處理過字串
    */
   public static String urlencodeUsingBig5(String source) {
     return urlencodeUsing(source, "BIG5");
@@ -62,6 +65,7 @@ public class StringUtility {
    * url decode.
    *
    * @param source 原始字串
+   * @return 回傳處理過字串
    */
   public static String urlencodeUsingGb2312(String source) {
     return urlencodeUsing(source, "GB2312");
@@ -72,6 +76,7 @@ public class StringUtility {
    *
    * @param source 原始字串
    * @param encode 編碼格式
+   * @return 回傳處理過字串
    */
   public static String urlencodeUsing(String source, String encode) {
     try {

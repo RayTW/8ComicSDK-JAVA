@@ -18,7 +18,11 @@ public class Comic {
   private String newestEpisode; // 最新集數
   private List<Episode> episodes; // 漫畫集數列表
 
-  /** 取得漫畫編號. */
+  /**
+   * 取得漫畫編號.
+   *
+   * @return 漫畫編號
+   */
   public String getId() {
     return id;
   }
@@ -32,27 +36,47 @@ public class Comic {
     this.id = id;
   }
 
-  /** 取得漫畫封面大圖網址. */
+  /**
+   * 取得漫畫封面大圖網址.
+   *
+   * @return 封面網址
+   */
   public String getIconUrl() {
     return iconUrl;
   }
 
-  /** 設定漫畫封面大圖網址. */
+  /**
+   * 設定漫畫封面大圖網址.
+   *
+   * @param iconUrl 大圖網址
+   */
   public void setIconUrl(String iconUrl) {
     this.iconUrl = iconUrl;
   }
 
-  /** 取得漫畫封面小圖網址. */
+  /**
+   * 取得漫畫封面小圖網址.
+   *
+   * @return 縮圖網址
+   */
   public String getSmallIconUrl() {
     return smallIconUrl;
   }
 
-  /** 取得漫畫封面小圖網址. */
+  /**
+   * 取得漫畫封面小圖網址.
+   *
+   * @param smallIconUrl 縮圖網址
+   */
   public void setSmallIconUrl(String smallIconUrl) {
     this.smallIconUrl = smallIconUrl;
   }
 
-  /** 取得漫畫名稱. */
+  /**
+   * 取得漫畫名稱.
+   *
+   * @return 漫畫名稱
+   */
   public String getName() {
     return name;
   }
@@ -66,7 +90,11 @@ public class Comic {
     this.name = name;
   }
 
-  /** 取得漫畫作者. */
+  /**
+   * 取得漫畫作者.
+   *
+   * @return 作者名稱
+   */
   public String getAuthor() {
     return author;
   }
@@ -80,7 +108,11 @@ public class Comic {
     this.author = author;
   }
 
-  /** 取得漫新最後更新的時間. */
+  /**
+   * 取得漫新最後更新的時間.
+   *
+   * @return 更新時間
+   */
   public String getLatestUpdateDateTime() {
     return latestUpdateDateTime;
   }
@@ -94,7 +126,11 @@ public class Comic {
     this.latestUpdateDateTime = latestUpdateDateTime;
   }
 
-  /** 取得漫畫簡介. */
+  /**
+   * 取得漫畫簡介.
+   *
+   * @return 簡介
+   */
   public String getDescription() {
     return description;
   }
@@ -108,17 +144,29 @@ public class Comic {
     this.description = description;
   }
 
-  /** 取得漫畫最新集數. */
+  /**
+   * 取得漫畫最新集數.
+   *
+   * @return 集數
+   */
   public String getNewestEpisode() {
     return newestEpisode;
   }
 
-  /** 設定漫畫最新集數. */
+  /**
+   * 設定漫畫最新集數.
+   *
+   * @param newestEpisode 最新集數
+   */
   public void setNewestEpisode(String newestEpisode) {
     this.newestEpisode = newestEpisode;
   }
 
-  /** 取得漫畫集數列表. */
+  /**
+   * 取得漫畫集數列表.
+   *
+   * @return 集數列表
+   */
   public List<Episode> getEpisodes() {
     return episodes;
   }
