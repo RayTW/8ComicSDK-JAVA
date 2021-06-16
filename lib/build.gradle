@@ -5,10 +5,10 @@
  * For more details take a look at the 'Building Java & JVM projects' chapter in the Gradle
  * User Manual available at https://docs.gradle.org/6.8/userguide/building_java_projects.html
  */
-
 plugins {
-    // Apply the java-library plugin for API and implementation separation.
     id 'java-library'
+    id 'maven-publish'
+    id "signing"
 }
 
 repositories {
@@ -16,13 +16,90 @@ repositories {
     jcenter()
 }
 
+sourceCompatibility = "8"
+targetCompatibility = "8"
+
+group = "io.github.raytw"
+archivesBaseName = "8Comic"
+version = "1.3.0"
+
+//-SNAPSHOT
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = '8ComicSDK'
+            from components.java
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+            pom {
+                name = '8ComicSDK'
+                description = 'A 8comic download SDK.'
+                url = 'https://github.com/RayTW/8ComicSDK-JAVA'
+                properties = [
+                    myProp: "value",
+                    "prop.with.dots": "anotherValue"
+                ]
+                licenses {
+                    license {
+                        name = 'The MIT License'
+                        url = 'https://raw.githubusercontent.com/RayTW/8ComicSDK-JAVA/master/LICENSE'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'RayTW'
+                        name = 'Ray Li'
+                        email = 'ray00000sina@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git@github.com:RayTW/8ComicSDK-JAVA.git'
+                    developerConnection = 'scm:git:ssh://github.com/RayTW/8ComicSDK-JAVA.git'
+                    url = 'https://github.com/RayTW/8ComicSDK-JAVA'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+          credentials {
+            username ossrhUsername
+            password ossrhPassword
+          }
+          
+          if(project.version.endsWith('-SNAPSHOT')) {
+            url "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+          } else {
+            url "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+          }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.mavenJava
+}
+
+
+javadoc {
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
+}
+
 dependencies {
     // Use JUnit test framework.
     testImplementation 'junit:junit:4.13'
-
-    // This dependency is exported to consumers, that is to say found on their compile classpath.
-    api 'org.apache.commons:commons-math3:3.6.1'
-
-    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
-    implementation 'com.google.guava:guava:29.0-jre'
 }
