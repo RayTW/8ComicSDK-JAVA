@@ -37,3 +37,12 @@ R8Comic.get().searchComic(searchKeyword, new OnLoadListener<List<Comic>>(){
 			
 });
 ```
+
+## How to import library
+
+### Gradle
+
+```gradle
+implementation 'io.github.raytw:8ComicSDK:1.3.0'
+```
+### [Other (maven, sbt...)](https://search.maven.org/artifact/io.github.raytw/8ComicSDK/1.3.0/jar)
