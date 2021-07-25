@@ -112,12 +112,12 @@ public class R8ComicTest {
                         System.out.println("getEpisodesSize[" + result.getEpisodes().size() + "]");
 
                         if (result.getEpisodes().size() > 0) {
-                          Episode episode = result.getEpisodes().get(0);
+                          Episode episode = result.getEpisodes().get(1);
                           System.out.println("episode==" + episode);
                           String downloadHost = hostList + episode.getUrl();
                           System.out.println("downloadHost[" + downloadHost + "]");
 
-                          episode.setUrl(downloadHost + episode.getUrl());
+                          episode.setUrl(downloadHost);
 
                           R8Comic.get()
                               .loadEpisodeDetail(

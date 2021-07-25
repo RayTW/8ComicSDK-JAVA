@@ -224,7 +224,16 @@ public class Parser {
    * @return 網址
    */
   public String cviewJs(Response response) {
-    return "https://comicbus.live/online/a-";
+    String html = response.getBody();
+    String funcBegin = "baseurl=\"";
+    String funcEnd = "\";";
+    html = html.substring(html.indexOf("cview("));
+    int funcBeginIndex = html.indexOf(funcBegin) + funcBegin.length();
+    String func = html.substring(funcBeginIndex);
+    int funcEndIndex = func.indexOf(funcEnd);
+    String url = func.substring(0, funcEndIndex);
+
+    return url;
   }
 
   /**
@@ -235,6 +244,7 @@ public class Parser {
    * @return 集數
    */
   public Episode episodeDetail(String htmlString, Episode episode) {
+	  System.out.println("htmlString-"+htmlString);
     String[] html = htmlString.split(System.lineSeparator());
     String startTagChs = "var chs=";
     String endTagChs = ";var ti=";
